@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mailsift-ultimate
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python mailsift_ultimate.py
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: PORT
+        value: 10000
