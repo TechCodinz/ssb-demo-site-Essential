@@ -2,733 +2,1525 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sol Sniper Bot PRO - #1 Pump.fun Solana Trading Bot</title>
-    <meta name="description"
-        content="The fastest Pump.fun sniper bot for Solana. Automated trading, anti-rug protection, 24/7 cloud operation. Start making profits today.">
-    <style>
-        :root {
-            --bg-dark: #020617;
-            --bg-card: #0f172a;
-            --accent-cyan: #22d3ee;
-            --accent-purple: #a855f7;
-            --text-primary: #f9fafb;
-            --text-muted: #9ca3af;
-            --success: #4ade80;
-            --warning: #facc15;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: radial-gradient(ellipse at top, #111827 0%, #020617 50%, #000 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%2322d3ee" stroke-width="0.5" opacity="0.1"/></svg>');
-            background-size: 300px;
-            opacity: 0.3;
-        }
-
-        .logo-big {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 36px;
-            color: var(--bg-dark);
-            margin-bottom: 30px;
-            box-shadow: 0 0 100px rgba(34, 211, 238, 0.5);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 60px rgba(34, 211, 238, 0.4);
-            }
-
-            50% {
-                box-shadow: 0 0 100px rgba(168, 85, 247, 0.6);
-            }
-        }
-
-        h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 36px;
-            }
-        }
-
-        .tagline {
-            font-size: 22px;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 600px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 60px;
-        }
-
-        .btn {
-            padding: 18px 40px;
-            border-radius: 999px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 50px rgba(34, 211, 238, 0.6);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--accent-cyan);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(34, 211, 238, 0.1);
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            gap: 50px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 30px;
-            background: var(--bg-card);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent-cyan);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        /* Features */
-        .features {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 40px;
-            margin-bottom: 60px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-cyan);
-        }
-
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .feature-title {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .feature-desc {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Live Demo */
-        .demo-section {
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        .demo-terminal {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #0a0a0a;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .terminal-header {
-            background: #1a1a1a;
-            padding: 12px 20px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .terminal-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .terminal-content {
-            padding: 20px;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            text-align: left;
-            height: 300px;
-            overflow: hidden;
-        }
-
-        .log-line {
-            padding: 4px 0;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .log-success {
-            color: var(--success);
-        }
-
-        .log-info {
-            color: var(--accent-cyan);
-        }
-
-        .log-warning {
-            color: var(--warning);
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .plans {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .plans {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .plan {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .plan.featured {
-            border: 2px solid var(--accent-purple);
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
-        }
-
-        .plan-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-purple);
-            color: white;
-            padding: 6px 20px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .plan-name {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .plan-price {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .plan-price span {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        .plan-features {
-            list-style: none;
-            margin: 30px 0;
-        }
-
-        .plan-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Instructions Section */
-        .instructions {
-            padding: 80px 20px;
-            background: #0b101b;
-            /* slightly lighter than dark bg */
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 900px) {
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .step-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: left;
-        }
-
-        .step-card h3 {
-            color: var(--accent-cyan);
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .step-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .step-card code {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            color: var(--text-primary);
-        }
-
-        .alert-box {
-            max-width: 800px;
-            margin: 40px auto 0;
-            background: rgba(250, 204, 21, 0.1);
-            /* warning color alpha */
-            border: 1px solid var(--warning);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            color: var(--warning);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        .modal-content h2 {
-            margin-bottom: 20px;
-            color: var(--accent-cyan);
-        }
-
-        .wallet-address {
-            background: #1e293b;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 14px;
-            margin: 20px 0;
-            word-break: break-all;
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            color: var(--accent-cyan);
-        }
-
-        .close-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 24px;
-            cursor: pointer;
-            float: right;
-            margin-top: -20px;
-            margin-right: -20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Sol Sniper Bot PRO (SSB) – Solana Pump.fun Sniper Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Sol Sniper Bot PRO – AI-powered Solana Pump.fun sniper with DRY RUN simulator, live trading engine, anti-rug filters and Pro/Elite modes." />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg2: #020617;
+      --accent: #22d3ee;
+      --accent2: #a855f7;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --success: #4ade80;
+      --card: rgba(15, 23, 42, 0.96);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Particle background */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.9), transparent);
+      opacity: 0.1;
+      animation: float 16s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.35;
+      }
+
+      90% {
+        opacity: 0.35;
+      }
+
+      100% {
+        transform: translate3d(0, -140vh, 0);
+        opacity: 0;
+      }
+    }
+
+    .wrapper {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 10%, #22d3ee, #1d4ed8 40%, #020617 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text);
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.45);
+    }
+
+    .brand-text-title {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .header-right {
+        align-items: flex-start;
+      }
+    }
+
+    .tag-pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 5px 12px;
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
+    }
+
+    .ref-pill {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.7);
+      color: #bfdbfe;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3.1fr) minmax(0, 2.4fr);
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.7);
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .badge span {
+      background: rgba(34, 211, 238, 0.18);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+    }
+
+    .hero h1 span.accent {
+      background: linear-gradient(90deg, #22d3ee, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      font-size: 12px;
+    }
+
+    .hero-points span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #22d3ee, #a855f7);
+      color: #0b1120;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 28px rgba(56, 189, 248, 0.45);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+    }
+
+    .btn-outline {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .hero-footnote {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 11px;
+    }
+
+    .trust-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+    }
+
+    .hero-card {
+      border-radius: 20px;
+      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.08), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      box-shadow: 0 0 40px rgba(15, 23, 42, 0.9);
+      padding: 14px 16px;
+      font-size: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow-ring {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      top: -80px;
+      right: -60px;
+      filter: blur(0.5px);
+      opacity: 0.5;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-chip {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 12px;
+      padding: 6px 8px;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .metric-value {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .hero-log-wrap {
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      padding: 8px;
+      font-family: Consolas, Menlo, monospace;
+      font-size: 11px;
+      color: #e5e7eb;
+      max-height: 160px;
+      overflow: hidden;
+      white-space: pre-line;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .hero-log {
+      max-height: 132px;
+      overflow: hidden;
+    }
+
+    .log-line-green {
+      color: #4ade80;
+    }
+
+    .log-line-yellow {
+      color: #facc15;
+    }
+
+    .log-line-red {
+      color: #f97373;
+    }
+
+    .log-line-blue {
+      color: #38bdf8;
+    }
+
+    /* Sections */
+    section {
+      margin-top: 40px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(2, 6, 23, 0.98));
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    section h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    section p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    ul {
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    /* Comparison */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      text-align: left;
+    }
+
+    .compare-table th {
+      color: #cbd5f5;
+      font-weight: 600;
+    }
+
+    .compare-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Pricing */
+    .pricing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .countdown {
+      font-size: 12px;
+      color: #facc15;
+      background: rgba(88, 28, 135, 0.4);
+      border-radius: 999px;
+      padding: 5px 10px;
+      border: 1px solid rgba(202, 138, 4, 0.7);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .price-card {
+      background: radial-gradient(circle at top, rgba(34, 211, 238, 0.08), rgba(15, 23, 42, 0.98));
+      border-radius: 16px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .price-card.popular {
+      border-color: rgba(34, 197, 94, 0.9);
+      box-shadow: 0 0 34px rgba(34, 197, 94, 0.3);
+    }
+
+    .price-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .price-tag {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .price-tag span {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .price-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+      margin-bottom: 6px;
+      border: 1px solid rgba(34, 197, 94, 0.7);
+    }
+
+    .price-badge-elite {
+      background: rgba(234, 179, 8, 0.1);
+      border-color: rgba(234, 179, 8, 0.7);
+      color: #fde68a;
+    }
+
+    .price-cta {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-note {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Payment section */
+    .pay-box {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px dashed rgba(55, 65, 81, 0.9);
+      font-size: 11px;
+    }
+
+    .pay-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .pay-label {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .wallet-box {
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      padding: 3px 8px;
+      font-size: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: rgba(30, 64, 175, 0.8);
+      color: #e5e7eb;
+      cursor: pointer;
+    }
+
+    /* Checkout form */
+    .checkout-box {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 12px;
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    @media (max-width: 720px) {
+      .checkout-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .checkout-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .checkout-label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .checkout-input,
+    .checkout-select,
+    .checkout-textarea {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 6px 8px;
+      color: #e5e7eb;
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .checkout-textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .checkout-hint {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Order steps */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .steps {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .step-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .step-num {
+      font-size: 11px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    /* Testimonials */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .testimonial-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .testimonial-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 12px;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .testimonial-name {
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-top: 6px;
+    }
+
+    .testimonial-tag {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* FAQ */
+    .faq-item {
+      margin-bottom: 10px;
+    }
+
+    .faq-q {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .faq-a {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Hero -->
+  <div class="particles" id="particles"></div>
+
+  <div class="wrapper">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">SSB</div>
+        <div>
+          <div class="brand-text-title">Sol Sniper Bot PRO</div>
+          <div class="brand-text-sub">SOLANA PUMP.FUN SNIPER ENGINE</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="tag-pill">
+          <span class="tag-dot"></span>
+          Live Engine • AI Risk v3 • 2025 Edition
+        </div>
+        <div id="ref-pill" class="ref-pill" style="display:none;"></div>
+      </div>
+    </header>
+
+    <!-- HERO -->
     <section class="hero">
-        <div class="logo-big">SSB</div>
-        <h1>Sol Sniper Bot PRO</h1>
-        <p class="tagline">The #1 Pump.fun Solana Trading Bot. Automated sniping, anti-rug protection, and 24/7 cloud
-            operation. Make profits while you sleep.</p>
+      <div>
+        <div class="badge">
+          <span>NEW 2025</span>
+          Solana Pump.fun Sniper Engine
+        </div>
+        <h1>
+          Trade Solana like a machine with
+          <span class="accent">Sol Sniper Bot PRO</span>
+        </h1>
+        <p class="hero-sub">
+          AI-powered sniper for Pump.fun + Raydium entries. Filters rugs, scores new tokens,
+          auto-buys, and manages TP/SL — so you don’t chase charts all day. Comes with a built-in
+          DRY RUN engine for safe testing and a PRO MAX live mode for real entries.
+        </p>
+        <div class="hero-points">
+          <span>⚡ <strong>Ultra-fast</strong> Pump.fun detection</span>
+          <span>🧠 AI Risk Engine v3</span>
+          <span>🛡️ Anti-rug &amp; honeypot filters</span>
+          <span>📊 Full GUI dashboard + CLI</span>
+          <span>🔐 HWID license protection</span>
+        </div>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});">
+            Get PRO / ELITE – Pay in USDT
+          </button>
+          <button class="btn-outline"
+            onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'});">
+            Watch DRY RUN Simulator
+          </button>
+          <button class="btn-outline"
+            onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'});">
+            Download FREE DRY RUN
+          </button>
+        </div>
+        <div class="hero-footnote">
+          Works with Windows (EXE), macOS &amp; Linux (Python). No coding required – GUI included.
+        </div>
+        <div class="trust-row">
+          <div class="trust-badge">
+            <span class="trust-dot"></span>
+            USDT TRC20 Payments Only
+          </div>
+          <div class="trust-badge">
+            🔒 HWID-Locked License (1–3 devices by plan)
+          </div>
+          <div class="trust-badge">
+            🧪 DRY RUN Mode Included on all plans
+          </div>
+        </div>
+      </div>
 
-        <div class="cta-buttons">
-            <a href="./SolSniperBotPRO.zip" class="btn btn-primary" download>🚀 Download Free Demo</a>
-            <a href="#setup" class="btn btn-secondary">📘 Setup Guide</a>
+      <div class="hero-card" id="simulator">
+        <div class="glow-ring"></div>
+        <div class="hero-card-header">
+          <div class="hero-card-title">
+            Live DRY RUN Console
+            <span style="font-size:10px; color:var(--muted);">(Simulated)</span>
+          </div>
+          <div class="hero-chip">SSB Engine v3</div>
         </div>
 
-        <div class="stats-bar">
-            <div class="stat">
-                <div class="stat-value">50K+</div>
-                <div class="stat-label">Tokens Sniped</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">2.3M+</div>
-                <div class="stat-label">SOL Volume</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">99.9%</div>
-                <div class="stat-label">Uptime</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">500+</div>
-                <div class="stat-label">Active Users</div>
-            </div>
+        <div class="hero-metrics">
+          <div class="metric">
+            <div class="metric-label">Tokens scanned</div>
+            <div class="metric-value" id="metric-scanned">12,483</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Pass rate</div>
+            <div class="metric-value" id="metric-pass">3.2%</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">DRY RUN buys</div>
+            <div class="metric-value" id="metric-buys">184</div>
+          </div>
         </div>
+
+        <div class="hero-log-wrap">
+          <div class="hero-log-header">
+            <span>SSB DRY RUN – Simulated Output</span>
+            <span style="color:#22c55e;">RUNNING ●</span>
+          </div>
+          <div class="hero-log" id="hero-log"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- Instructions / Quick Start -->
-    <section class="instructions" id="setup">
-        <h2 class="section-title">Quick Start Guide</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <h3>1. Download & Unzip</h3>
-                <p>Click "Download Free Demo" above. Extract the ZIP file to a folder on your computer (Windows 10/11).
-                </p>
-            </div>
-            <div class="step-card">
-                <h3>2. Configure</h3>
-                <p>Rename <code>config.sample.json</code> to <code>config.json</code>.
-                    Open it and set your <b>private_key</b> (for trading) and <b>rpc</b> (use Helius or QuickNode for
-                    best speed).</p>
-            </div>
-            <div class="step-card">
-                <h3>3. Run & Trade</h3>
-                <p>Double-click <code>gui_main.exe</code>. Select "Try Free Demo" or enter your license key to go LIVE!
-                </p>
-            </div>
+    <!-- WHY -->
+    <section id="features">
+      <h2>Why Sol Sniper Bot PRO?</h2>
+      <p>
+        SSB PRO is built for the current Solana meta: stealth launches, violent volatility and rugs everywhere.
+        Instead of guessing, the engine constantly checks risk in real time and only moves when conditions
+        fit your rules.
+      </p>
+      <div class="grid-2" style="margin-top: 12px;">
+        <div>
+          <h3 style="font-size:14px; margin-bottom:4px;">🧠 AI Risk Engine v3</h3>
+          <ul>
+            <li>Analyzes liquidity, FDV, 5m volume and trade flow in seconds.</li>
+            <li>Scores each token on a 0–100 confidence scale before entry.</li>
+            <li>Penalizes suspicious behaviour &amp; bot-heavy movements.</li>
+            <li>Engine profiles tuned for STANDARD, PRO and ELITE users.</li>
+          </ul>
         </div>
-        <div class="alert-box">
-            <p><strong>💡 Pro Tip:</strong> Use a dedicated wallet with small funds for testing. Get a free fast RPC
-                from <a href="https://helius.dev" target="_blank" style="color:var(--text-primary);">Helius.dev</a>.</p>
+        <div>
+          <h3 style="font-size:14px; margin-bottom:4px;">🛡️ Anti-Rug &amp; Honeypot Filters</h3>
+          <ul>
+            <li>Honeypot heuristics + liquidity anomaly checks.</li>
+            <li>Soft-blocks tokens with no sells but spam buys.</li>
+            <li>Filters thin liquidity & fake volume spikes.</li>
+            <li>Configurable minimum liq &amp; 5-minute volume thresholds.</li>
+          </ul>
         </div>
+      </div>
     </section>
 
-    <!-- Features -->
-    <section class="features">
-        <h2 class="section-title">Why Traders Choose Us</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Lightning Fast Entries</h3>
-                <p class="feature-desc">Snipe new tokens within seconds of launch. Our engine connects directly to
-                    Pump.fun for instant detection.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3 class="feature-title">Anti-Rug Protection</h3>
-                <p class="feature-desc">Advanced honeypot detection, freeze authority checks, and liquidity analysis
-                    protect you from scams.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">☁️</div>
-                <h3 class="feature-title">24/7 Cloud Bot</h3>
-                <p class="feature-desc">Your bot runs in the cloud forever. No downloads, no setup. Trade from any
-                    device, anywhere.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3 class="feature-title">Smart Risk Engine</h3>
-                <p class="feature-desc">AI-powered confidence scoring analyzes liquidity, volume, holder distribution,
-                    and more.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3 class="feature-title">Auto TP/SL</h3>
-                <p class="feature-desc">Set your take-profit and stop-loss levels. The bot executes exits automatically.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3 class="feature-title">Telegram Alerts</h3>
-                <p class="feature-desc">Get instant notifications for every trade. Stay informed without watching
-                    charts.</p>
-            </div>
+    <!-- ENGINE / MODES -->
+    <section id="engine">
+      <h2>Trading Engine &amp; Modes</h2>
+      <div class="grid-2">
+        <div>
+          <p><strong>Configure your risk once, then let SSB do the heavy lifting.</strong></p>
+          <ul>
+            <li>Fixed buy size per trade (e.g. 0.1–1 SOL per entry).</li>
+            <li>Take-profit &amp; stop-loss based on percentage moves.</li>
+            <li>Max trades per hour to avoid over-trading during hype.</li>
+            <li>Max open positions to keep risk capped.</li>
+            <li>Session filter – trade only during your chosen UTC hours.</li>
+          </ul>
         </div>
+        <div>
+          <p><strong>Two main modes:</strong></p>
+          <ul>
+            <li><b>STANDARD (DRY RUN)</b> – full simulation, no real trades. Perfect for testing and learning the
+              engine.</li>
+            <li><b>PRO &amp; ELITE LIVE</b> – enable real trading when you’re ready, using your SOL wallet &amp; RPC.
+            </li>
+          </ul>
+          <p style="margin-top:6px; font-size:12px; color:var(--danger);">
+            Important: No bot can guarantee profits. This is a tool. You control size, settings and risk.
+            Never trade money you cannot afford to lose.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- Live Demo -->
-    <section class="demo-section" id="demo">
-        <h2 class="section-title">See It In Action</h2>
-        <div class="demo-terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot" style="background: #ff5f56;"></div>
-                <div class="terminal-dot" style="background: #ffbd2e;"></div>
-                <div class="terminal-dot" style="background: #27c93f;"></div>
-            </div>
-            <div class="terminal-content" id="terminal"></div>
+    <!-- GUI / CLI -->
+    <section id="gui">
+      <h2>GUI Dashboard + CLI – For All Types of Users</h2>
+      <div class="grid-2">
+        <div>
+          <h3 style="font-size:14px; margin-bottom:4px;">🖥️ GUI Mode (EXE Included)</h3>
+          <ul>
+            <li>Start/Stop bot with buttons.</li>
+            <li>Live token feed and log window.</li>
+            <li>Session stats: seen tokens, passes, TP/SL exits, open positions.</li>
+            <li>License panel: plan, email, expiry, HWID.</li>
+          </ul>
         </div>
+        <div>
+          <h3 style="font-size:14px; margin-bottom:4px;">💻 CLI Mode (Python)</h3>
+          <ul>
+            <li>Run from VPS, Mac, or Linux.</li>
+            <li>Same engine logic as GUI.</li>
+            <li>Perfect for advanced users &amp; 24/7 setups.</li>
+          </ul>
+        </div>
+      </div>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>STANDARD (DRY RUN)</th>
+            <th>PRO</th>
+            <th>ELITE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI Risk Engine v3</td>
+            <td>✔ Full</td>
+            <td>✔ Full</td>
+            <td class="compare-highlight">✔ Tuned PRO MAX</td>
+          </tr>
+          <tr>
+            <td>DRY RUN Simulation</td>
+            <td>✔ Unlimited</td>
+            <td>✔ Included</td>
+            <td>✔ Included</td>
+          </tr>
+          <tr>
+            <td>Live Trading</td>
+            <td>✖ No</td>
+            <td>✔ Enabled</td>
+            <td class="compare-highlight">✔ More aggressive profile</td>
+          </tr>
+          <tr>
+            <td>Max Trades / Hour</td>
+            <td>Safer, slower</td>
+            <td>Balanced</td>
+            <td class="compare-highlight">Aggressive (still filtered)</td>
+          </tr>
+          <tr>
+            <td>Devices / HWID</td>
+            <td>1 device</td>
+            <td>1 device</td>
+            <td>2–3 devices (per license rules)</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
-    <!-- Pricing -->
-    <section class="pricing">
-        <h2 class="section-title">Choose Your Plan</h2>
-        <div class="plans">
-            <div class="plan">
-                <h3 class="plan-name">STANDARD</h3>
-                <div class="plan-price">$199<span> USDT</span></div>
-                <p style="color: var(--text-muted);">Lifetime Access</p>
-                <ul class="plan-features">
-                    <li>✓ LIVE Trading Mode</li>
-                    <li>✓ 7 trades/hour</li>
-                    <li>✓ 5 open positions</li>
-                    <li>✓ Basic risk engine</li>
-                    <li>✗ Trailing stop-loss</li>
-                </ul>
-                <a href="/pricing" class="btn btn-secondary" style="width: 100%;">Get Started</a>
-            </div>
-            <div class="plan featured">
-                <span class="plan-badge">MOST POPULAR</span>
-                <h3 class="plan-name" style="color: var(--accent-purple);">PRO</h3>
-                <div class="plan-price">$499<span> USDT</span></div>
-                <p style="color: var(--text-muted);">Lifetime Access</p>
-                <ul class="plan-features">
-                    <li>✓ LIVE Trading Mode</li>
-                    <li>✓ 12 trades/hour</li>
-                    <li>✓ 8 open positions</li>
-                    <li>✓ Pro risk engine</li>
-                    <li>✓ Trailing stop-loss</li>
-                </ul>
-                <a href="/pricing" class="btn btn-primary" style="width: 100%;">Get Pro</a>
-            </div>
-            <div class="plan">
-                <h3 class="plan-name" style="color: var(--warning);">ELITE</h3>
-                <div class="plan-price">$899<span> USDT</span></div>
-                <p style="color: var(--text-muted);">Lifetime Access</p>
-                <ul class="plan-features">
-                    <li>✓ LIVE Trading Mode</li>
-                    <li>✓ 18 trades/hour</li>
-
-                    <li>✓ 10 open positions</li>
-                    <li>✓ Elite risk engine</li>
-                    <li>✓ Early entry boost</li>
-                </ul>
-                <button class="btn btn-secondary" onclick="openModal('ELITE', 899)">Get Elite</button>
-            </div>
+    <!-- DOWNLOAD DRY RUN -->
+    <section id="download">
+      <h2>Download FREE DRY RUN Simulator</h2>
+      <p>
+        You can download the STANDARD DRY RUN version for free and watch how the engine behaves
+        without risking real SOL. When you’re ready to trade live, upgrade to PRO or ELITE.
+      </p>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li>Runs the same AI Risk Engine v3 as paid plans.</li>
+            <li>Scans Pump.fun tokens, applies filters, and logs “would buy” events.</li>
+            <li>Perfect for testing strategies and building trust in the engine.</li>
+          </ul>
         </div>
+        <div>
+          <p style="font-size:12px; color:var(--muted);">
+            DRY RUN version cannot submit real trades. Upgrading unlocks LIVE trading with your wallet.
+          </p>
+          <button class="btn-primary" onclick="downloadDryRun()">
+            Download DRY RUN Version (FREE)
+          </button>
+          <p style="font-size:11px; color:var(--muted); margin-top:6px;">
+            <!-- TODO: Replace the download link in the script with your real DRY RUN file URL. -->
+            After downloading, you can always upgrade later by paying in USDT and activating PRO or ELITE.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- Payment Modal -->
-    <div class="modal" id="payment-modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h2>Complete Payment</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">
-                Plan: <strong id="modal-plan">-</strong> • Amount: <strong id="modal-amount">$0</strong> USDT
-            </p>
-
-            <div id="order-step">
-                <p style="margin-bottom: 20px;">1. Send exact amount (TRC20) to:</p>
-                <div class="wallet-address" id="modal-wallet">TBxck6t1a3pZE2YLho4Su1PcGKd2yK2zD4</div>
-                <p style="margin-bottom: 20px;">2. Send TX Hash & Email to Telegram:</p>
-                <a href="https://t.me/SSB_OrderBot" target="_blank" class="btn btn-primary">Open Telegram Support</a>
-            </div>
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="pricing-header">
+        <h2>Pricing &amp; Plans (USDT Only)</h2>
+        <div class="countdown">
+          Launch wave discount ends in <span id="countdown-timer">23:59:59</span>
         </div>
-    </div>
+      </div>
+      <p>Pay once in USDT (TRC20) and receive your license key + installer bundle. You can always upgrade later.</p>
+      <div class="pricing-grid" style="margin-top:12px;">
+        <!-- STANDARD -->
+        <div class="price-card" id="standard">
+          <div class="price-title">STANDARD – DRY RUN</div>
+          <div class="price-tag">$199 <span>USDT</span></div>
+          <div class="price-note">For testing, learning &amp; simulation.</div>
+          <ul>
+            <li>Full AI Risk Engine (v3).</li>
+            <li>GUI dashboard + CLI mode.</li>
+            <li>DRY RUN simulation only (no real trades).</li>
+            <li>Perfect for learning the bot &amp; watching behaviour.</li>
+            <li>1 license (1 machine).</li>
+          </ul>
+          <div class="price-cta">
+            <button class="btn-outline" onclick="scrollToPayment('STANDARD')">
+              Order STANDARD – Pay $199 in USDT
+            </button>
+            <button class="btn-outline" style="margin-top:4px;"
+              onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'});">
+              Or Download DRY RUN Free
+            </button>
+            <div class="mini-note">
+              Recommended if you want to see how the engine behaves before going live.
+            </div>
+          </div>
+        </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>© 2025 Sol Sniper Bot PRO. Trade responsibly. Not financial advice.</p>
+        <!-- PRO -->
+        <div class="price-card popular" id="buy-pro">
+          <div class="price-badge">Most Popular</div>
+          <div class="price-title">PRO – LIVE TRADING</div>
+          <div class="price-tag">$499 <span>USDT</span></div>
+          <div class="price-note">For active Solana traders.</div>
+          <ul>
+            <li>Everything in STANDARD.</li>
+            <li>Live trading (real SOL orders).</li>
+            <li>PRO engine: balanced risk &amp; speed.</li>
+            <li>TP/SL automation + live DRY RUN &amp; live alerts.</li>
+            <li>Telegram alerts (when configured).</li>
+            <li>1 license (1 machine).</li>
+          </ul>
+          <div class="price-cta">
+            <button class="btn-primary" onclick="scrollToPayment('PRO')">
+              Order PRO – Pay $499 in USDT
+            </button>
+            <div class="mini-note">
+              Most users start here. Live engine + DRY RUN included.
+            </div>
+          </div>
+        </div>
+
+        <!-- ELITE -->
+        <div class="price-card" id="elite">
+          <div class="price-badge price-badge-elite">ELITE Access</div>
+          <div class="price-title">ELITE – LIFETIME</div>
+          <div class="price-tag">$899 <span>USDT</span></div>
+          <div class="price-note">For serious long-term users.</div>
+          <ul>
+            <li>Everything in PRO.</li>
+            <li>Lifetime updates for this product line.</li>
+            <li>Engine tuned in PRO MAX profile (faster entries, still filtered).</li>
+            <li>Multi-device allowance (2–3 HWIDs, per agreement).</li>
+            <li>Priority support + upgrade path when new engines drop.</li>
+          </ul>
+          <div class="price-cta">
+            <button class="btn-outline" onclick="scrollToPayment('ELITE')">
+              Order ELITE – Pay $899 in USDT
+            </button>
+            <div class="mini-note">
+              Designed for users who will be here all cycle.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDER / PAYMENT -->
+    <section id="order">
+      <h2>How to Order – USDT (TRC20) Only</h2>
+      <p>We keep it simple: pay in crypto, send proof, receive your license key + download link.</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">Step 1 – Choose Your Plan</div>
+          <p>Select STANDARD, PRO or ELITE. Decide how aggressive you want to be and what level of access you want.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 2 – Pay in USDT (TRC20)</div>
+          <p>Send the exact amount for your chosen plan to the wallet below. Network: <b>TRON</b> (TRC20).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 3 – Submit Order to Telegram</div>
+          <p>Use the quick checkout form to send your plan, TX hash and email directly to the SSB Order Bot.</p>
+        </div>
+      </div>
+
+      <!-- WALLET -->
+      <div class="pay-box" style="margin-top:14px;">
+        <div class="pay-label">USDT (TRC20) Wallet:</div>
+        <div class="pay-row">
+          <div class="wallet-box" id="wallet-address">
+            TBxck6t1a3pZE2YLho4Su1PcGKd2yK2zD4
+          </div>
+          <button class="copy-btn" onclick="copyWallet()">Copy</button>
+        </div>
+        <div style="margin-top:6px; font-size:11px; color:var(--muted);">
+          Network: <b>TRON (TRC20)</b> • Double-check the address and network before sending. Crypto payments are final.
+        </div>
+        <div style="margin-top:8px;">
+          <button class="btn-outline" onclick="openTelegram()">
+            Open Telegram Order Bot
+          </button>
+        </div>
+      </div>
+
+      <!-- CHECKOUT FORM -->
+      <div class="checkout-box">
+        <div style="font-weight:600; font-size:13px; margin-bottom:6px;">
+          Quick Checkout – Send Your Order to Telegram Bot
+        </div>
+        <form id="checkout-form" onsubmit="sendOrderToTelegram(event)">
+          <div class="checkout-grid">
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-plan">Plan</label>
+              <select id="checkout-plan" class="checkout-select">
+                <option value="">Select your plan</option>
+                <option value="STANDARD (DRY RUN)">STANDARD (DRY RUN) – $199</option>
+                <option value="PRO (LIVE)">PRO (LIVE) – $499</option>
+                <option value="ELITE (LIFETIME)">ELITE (LIFETIME) – $899</option>
+              </select>
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-email">Email (license delivery)</label>
+              <input id="checkout-email" type="email" class="checkout-input" placeholder="you@example.com" />
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-tx">TX Hash (USDT payment)</label>
+              <input id="checkout-tx" type="text" class="checkout-input" placeholder="Paste your TX hash here" />
+              <div class="checkout-hint">Make sure the amount &amp; network match the chosen plan.</div>
+            </div>
+            <div class="checkout-field">
+              <label class="checkout-label" for="checkout-note">Referral / Extra Note (optional)</label>
+              <textarea id="checkout-note" class="checkout-textarea"
+                placeholder="Referral code, Telegram @username, or anything we should know."></textarea>
+            </div>
+          </div>
+          <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+            <button type="submit" class="btn-primary">
+              Send Order to @SSB_OrderBot
+            </button>
+            <span class="checkout-hint">
+              This opens Telegram with a pre-filled message to the bot. You’ll receive license + download after
+              confirmation.
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <p style="font-size:11px; color:var(--muted); margin-top:8px;">
+        After payment and order submission, we’ll send your license key + full download bundle (GUI EXE + Python source
+        + setup guide)
+        to your email and/or Telegram.
+      </p>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section id="social-proof">
+      <h2>What Early Users Say</h2>
+      <p>These are examples of feedback from users who ran the engine in DRY RUN and later moved to live trading.</p>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          “I left it on DRY RUN while working and saw multiple tokens hit TP that I would have never found manually.
+          The filters skip over obvious trash and only ping me when the setup actually looks decent.”
+          <div class="testimonial-name">— K., Solana degen</div>
+          <div class="testimonial-tag">STANDARD → PRO upgrade</div>
+        </div>
+        <div class="testimonial-card">
+          “The risk engine feels like a second brain. I still decide when to run it, but it handles the heavy scanning.
+          No more staring at Pump.fun 24/7.”
+          <div class="testimonial-name">— L., Part-time trader</div>
+          <div class="testimonial-tag">PRO user</div>
+        </div>
+        <div class="testimonial-card">
+          “I took ELITE because I plan to be here all cycle. I like that I can simulate in DRY RUN on my laptop and
+          run live from a VPS, with the same engine logic.”
+          <div class="testimonial-name">— M., Long-term holder</div>
+          <div class="testimonial-tag">ELITE user</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <div class="faq-q">Does this guarantee profit?</div>
+        <div class="faq-a">
+          No. This is a tool, not a magic money printer. Crypto trading is high risk. The bot helps you scan, filter and
+          execute,
+          but you control the risk. Always start with DRY RUN, and never trade money you cannot afford to lose.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What do I need to run it?</div>
+        <div class="faq-a">
+          For GUI/EXE: Windows 10/11.
+          For Python mode: Python 3.10, a Solana wallet private key (base58 or keypair JSON), an RPC URL, and basic
+          command-line skills.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is it license protected?</div>
+        <div class="faq-a">
+          Yes. Each STANDARD / PRO / ELITE copy is tied to a license key and hardware ID (HWID). This protects your
+          investment and prevents public leaks.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I resell or share the bot?</div>
+        <div class="faq-a">
+          No. Licenses are personal and non-transferable. Resale, sharing or posting the files publicly is prohibited
+          and may lead to license revocation.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I upgrade later?</div>
+        <div class="faq-a">
+          Yes, you can start with STANDARD or PRO and later upgrade to PRO or ELITE by paying the difference (subject to
+          conditions we agree on at the time).
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 Sol Sniper Bot PRO (SSB). All rights reserved.
+      This software is for educational use only and comes with no profit guarantees. Crypto trading is risky – you are
+      fully responsible for your results.
     </footer>
+  </div>
 
-    <script>
-        // Simulated live trading demo
-        const logs = [
-            { text: '⚡ Engine started - ELITE mode', class: 'log-info' },
-            { text: '🔌 Connected to Pump.fun stream', class: 'log-success' },
-            { text: '🚀 NEW TOKEN: 5xK8...2Fm9', class: 'log-success' },
-            { text: '📊 Analyzing risk... Confidence: 82.4%', class: 'log-info' },
-            { text: '🟢 BUY EXECUTED: 0.25 SOL → 5xK8...', class: 'log-success' },
-            { text: '🚀 NEW TOKEN: 9aB2...7Xm1', class: 'log-success' },
-            { text: '📊 Analyzing risk... Confidence: 45.2%', class: 'log-info' },
-            { text: '❌ REJECTED: Low confidence', class: 'log-warning' },
-            { text: '💰 SELL (TP): 5xK8... +287%', class: 'log-success' },
-            { text: '🚀 NEW TOKEN: 3mN7...4Ks8', class: 'log-success' },
-        ];
+  <script>
+    // ----- Globals -----
+    const TELEGRAM_BOT_URL = 'https://t.me/SSB_OrderBot';
 
-        const terminal = document.getElementById('terminal');
-        let i = 0;
+    // ----- Particle background -----
+    (function createParticles() {
+      const container = document.getElementById('particles');
+      const count = 40;
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 3 + 2;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * w + 'px';
+        p.style.top = (Math.random() * h + h * 0.3) + 'px';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        p.style.opacity = (0.08 + Math.random() * 0.25).toFixed(2);
+        container.appendChild(p);
+      }
+    })();
 
-        function addLog() {
-            if (i >= logs.length) {
-                terminal.innerHTML = '';
-                i = 0;
-            }
-            const log = logs[i];
-            const line = document.createElement('div');
-            line.className = `log-line ${log.class}`;
-            line.style.animationDelay = '0s';
-            line.textContent = `[${new Date().toLocaleTimeString()}] ${log.text}`;
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-            i++;
+    // ----- DRY RUN Simulator -----
+    const logEl = document.getElementById('hero-log');
+    const metricScannedEl = document.getElementById('metric-scanned');
+    const metricPassEl = document.getElementById('metric-pass');
+    const metricBuysEl = document.getElementById('metric-buys');
+
+    let scanned = 12483;
+    let passes = 3.2;
+    let buys = 184;
+
+    const lines = [
+      { t: 'INFO', c: 'yellow', msg: 'Sol Sniper Bot PRO – Mode: DRY RUN | RPC: mainnet Helius | Buy: 0.25 SOL | TP: 250% | SL: 60%' },
+      { t: 'INFO', c: 'green', msg: '⚡ Connected to Pump.fun stream (Sol Sniper Bot PRO).' },
+      { t: 'INFO', c: 'green', msg: '🚀 NEW TOKEN: 8Zd7Q1XTrCemMbBdJM8VKHjYbW14Lz8AQJSNtmsUpump' },
+      { t: 'INFO', c: 'yellow', msg: '[DEX] Waiting for liquidity...' },
+      { t: 'INFO', c: 'green', msg: '📊 RISK 8Zd7Q1 | Conf 86.4 | Liq $19,240 | Vol5m $31,800 | BotDensity 22.1%' },
+      { t: 'INFO', c: 'green', msg: '[DRY-RUN BUY] 8Zd7Q1 | Amount: 0.25 SOL | Conf 86.4' },
+      { t: 'INFO', c: 'yellow', msg: '[POS] Tracking position 8Zd7Q1 | entry 0.00004120 | amount 0.25 SOL' },
+      { t: 'INFO', c: 'green', msg: 'TP condition met @ 3.2x – (DRY RUN) Would SELL' },
+      { t: 'INFO', c: 'red', msg: '[FILTER] Honeypot heuristic triggered – Skipped 4Hx9LQ' },
+      { t: 'INFO', c: 'blue', msg: '[STATS] Seen=+++ | DexOK=+++ | Passed=+++ | DRY_BUYS=+++ | LIVE_BUYS=0' }
+    ];
+
+    function addLogLine(line) {
+      const now = new Date();
+      const timeStr = now.toTimeString().slice(0, 8);
+      const span = document.createElement('div');
+      let cls = 'log-line-yellow';
+      if (line.c === 'green') cls = 'log-line-green';
+      if (line.c === 'red') cls = 'log-line-red';
+      if (line.c === 'blue') cls = 'log-line-blue';
+      span.className = cls;
+      const msg = line.msg
+        .replace('+++', String(scanned))
+        .replace('+++', String(Math.round(scanned * (passes / 100))))
+        .replace('+++', String(buys));
+      span.textContent = timeStr + ' | ' + line.t + ' | ' + msg;
+      logEl.appendChild(span);
+
+      while (logEl.children.length > 12) {
+        logEl.removeChild(logEl.firstChild);
+      }
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    let idx = 0;
+    addLogLine(lines[0]);
+
+    setInterval(() => {
+      scanned += Math.floor(Math.random() * 5) + 3;
+      const newPasses = passes + (Math.random() * 0.2 - 0.1);
+      passes = Math.max(1.2, Math.min(6.0, newPasses));
+      if (Math.random() < 0.3) {
+        buys += 1;
+      }
+      metricScannedEl.textContent = scanned.toLocaleString();
+      metricPassEl.textContent = passes.toFixed(1) + '%';
+      metricBuysEl.textContent = buys.toString();
+
+      idx = (idx + 1) % lines.length;
+      addLogLine(lines[idx]);
+    }, 1600);
+
+    // ----- Countdown timer (24h cycle per user) -----
+    const timerEl = document.getElementById('countdown-timer');
+    function initCountdown() {
+      try {
+        const key = 'ssb_countdown_until';
+        let target = localStorage.getItem(key);
+        const now = Date.now();
+        if (!target || Number(target) < now) {
+          const newTarget = now + 24 * 60 * 60 * 1000;
+          localStorage.setItem(key, String(newTarget));
+          target = String(newTarget);
         }
+        const targetMs = Number(target);
 
-        // Start demo
-        setInterval(addLog, 2000);
-        addLog();
-
-        // Modal Logic
-        function openModal(plan, price) {
-            document.getElementById('modal-plan').textContent = plan;
-            document.getElementById('modal-amount').textContent = '$' + price;
-            document.getElementById('payment-modal').classList.add('active');
+        function tick() {
+          const nowMs = Date.now();
+          let diff = targetMs - nowMs;
+          if (diff <= 0) diff = 0;
+          const h = Math.floor(diff / (1000 * 60 * 60));
+          const m = Math.floor((diff / (1000 * 60)) % 60);
+          const s = Math.floor((diff / 1000) % 60);
+          const pad = (n) => n.toString().padStart(2, '0');
+          timerEl.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
         }
+        tick();
+        setInterval(tick, 1000);
+      } catch (e) {
+        timerEl.textContent = '24:00:00';
+      }
+    }
+    initCountdown();
 
-        function closeModal() {
-            document.getElementById('payment-modal').classList.remove('active');
-        }
+    // ----- Referral tracking -----
+    (function handleRef() {
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref');
+      if (ref) {
+        const pill = document.getElementById('ref-pill');
+        pill.textContent = 'Referral: ' + ref;
+        pill.style.display = 'inline-flex';
+      }
+    })();
 
-        // Close modal on click outside
-        window.onclick = function (event) {
-            if (event.target == document.getElementById('payment-modal')) {
-                closeModal();
-            }
+    // ----- Scroll helpers -----
+    function scrollToPayment(plan) {
+      const orderSection = document.getElementById('order');
+      const select = document.getElementById('checkout-plan');
+      if (select && plan) {
+        if (plan === 'STANDARD') {
+          select.value = 'STANDARD (DRY RUN)';
+        } else if (plan === 'PRO') {
+          select.value = 'PRO (LIVE)';
+        } else if (plan === 'ELITE') {
+          select.value = 'ELITE (LIFETIME)';
         }
-    </script>
+      }
+      if (orderSection) {
+        orderSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // ----- Copy wallet -----
+    function copyWallet() {
+      const addr = document.getElementById('wallet-address').textContent.trim();
+      if (!navigator.clipboard) {
+        alert('Wallet: ' + addr);
+        return;
+      }
+      navigator.clipboard.writeText(addr).then(() => {
+        alert('Wallet address copied to clipboard.');
+      }).catch(() => {
+        alert('Wallet: ' + addr);
+      });
+    }
+
+    // ----- Telegram bot -----
+    function openTelegram() {
+      window.open(TELEGRAM_BOT_URL, '_blank');
+    }
+
+    // ----- DRY RUN Download -----
+    function downloadDryRun() {
+      // Direct relative link for Vercel deployment
+      const url = './SolSniperBotPRO.zip';
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'SolSniperBotPRO.zip';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // ----- Send order to Telegram bot -----
+    function sendOrderToTelegram(e) {
+      e.preventDefault();
+      const plan = document.getElementById('checkout-plan').value;
+      const email = document.getElementById('checkout-email').value.trim();
+      const tx = document.getElementById('checkout-tx').value.trim();
+      const note = document.getElementById('checkout-note').value.trim();
+
+      if (!plan || !email || !tx) {
+        alert('Please fill Plan, Email and TX hash before sending your order.');
+        return;
+      }
+
+      const msgLines = [
+        '🧾 New SSB Order',
+        '',
+        'Plan: ' + plan,
+        'Email: ' + email,
+        'TX Hash: ' + tx,
+        note ? 'Note: ' + note : 'Note: —',
+        '',
+        'Source: Landing page checkout form'
+      ];
+      const message = msgLines.join('\n');
+      const url = TELEGRAM_BOT_URL + '?text=' + encodeURIComponent(message);
+      window.open(url, '_blank');
+    }
+
+    // Expose for inline onclick
+    window.scrollToPayment = scrollToPayment;
+    window.copyWallet = copyWallet;
+    window.openTelegram = openTelegram;
+    window.downloadDryRun = downloadDryRun;
+    window.sendOrderToTelegram = sendOrderToTelegram;
+  </script>
 </body>
 
 </html>
