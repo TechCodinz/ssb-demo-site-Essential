@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Order Approval</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #111;
+            color: #fff;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #222;
+        }
+
+        button {
+            background: #4ade80;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            color: #000;
+            font-weight: bold;
+        }
+
+        input {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Admin Panel - Fast Approval</h1>
+    <script>
+        // Auth Guard
+        const token = localStorage.getItem('ssb_token');
+        if (!token) {
+            window.location.href = '/auth.html';
+        }
+    </script>
+    <div id="login-section">
+        <input type="password" id="admin-pass" placeholder="Admin Key">
+        <button onclick="loadOrders()">Load Pending Orders</button>
+    </div>
+
+    <table id="orders-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Tx Hash</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="orders-body">
+            <!-- Populated via JS -->
+        </tbody>
+    </table>
+
+    <script>
+        // Mock Admin functionality - In real app, this would hit /admin/orders endpoint
+        // For now, it allows manually triggering the 'confirm webhook' for a hash
+
+        async function approveOrder(txHash) {
+            if (!confirm("Confirm payment received for hash: " + txHash + "?")) return;
+
+            try {
+                // Simulate webhook call from payment provider
+                const res = await fetch('https://api.ssbpro.dev/v1/orders/webhook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tx_hash: txHash,
+                        verified: true,
+                        amount: 79.0 // simplify
+                    })
+                });
+                const data = await res.json();
+                alert("Result: " + JSON.stringify(data));
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        }
+
+        function loadOrders() {
+            // In a real implementation this would fetch from GET /admin/orders
+            // But since we don't have that endpoint yet, we'll provide a manual entry form
+
+            const tbody = document.getElementById('orders-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align:center; color:#888;">
+                        (Auto-fetch not implemented) Manual Entry Mode<br><br>
+                        <input type="text" id="manual-hash" placeholder="Enter TX Hash from Block Explorer" style="width:300px;">
+                        <button onclick="approveOrder(document.getElementById('manual-hash').value)">APPROVE & ISSUE LICENSE</button>
+                    </td>
+                </tr>
+            `;
+        }
+    </script>
+</body>
+
+</html>

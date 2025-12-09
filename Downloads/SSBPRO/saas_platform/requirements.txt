@@ -1,0 +1,41 @@
+# Sol Sniper Bot PRO - SaaS requirements
+# Production dependencies for cloud platform
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy[asyncio]==2.0.25
+asyncpg==0.29.0
+alembic==1.13.1
+
+# Redis
+redis==5.0.1
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+
+# HTTP
+httpx==0.26.0
+websockets==12.0
+
+# Settings
+pydantic-settings==2.1.0
+
+# Templates
+jinja2==3.1.3
+
+# Encryption
+cryptography==41.0.7
+
+# Solana (for trading)
+solana==0.32.0
+solders==0.20.0
+base58==2.1.1
+
+# Utilities
+python-dotenv==1.0.0

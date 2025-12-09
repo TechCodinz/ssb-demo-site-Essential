@@ -1,0 +1,25 @@
+{
+  "license_file": "license.ssb",
+  "license_db_url": "https://raw.githubusercontent.com/TechCodinz/ssb-license-db/main/licenses.json",
+
+  "private_key": "",
+  "rpc": "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY",
+
+  "buy_amount_sol": 0.25,
+  "min_liquidity_usd": 8000,
+  "min_volume_5m": 15000,
+  "take_profit_percent": 250,
+  "stop_loss_percent": 60,
+
+  "telegram_token": "",
+  "telegram_chat_id": "",
+
+  "dry_run": true,
+
+  "max_trades_per_hour": 12,
+  "min_confidence_score": 70,
+  "max_open_positions": 8,
+
+  "session_start_hour_utc": 0,
+  "session_end_hour_utc": 23
+}

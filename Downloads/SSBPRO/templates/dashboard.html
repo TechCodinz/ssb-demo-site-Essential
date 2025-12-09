@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol Sniper Bot PRO - Cloud Dashboard</title>
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --bg-input: #1e293b;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --text-primary: #f9fafb;
+            --text-muted: #9ca3af;
+            --success: #4ade80;
+            --danger: #f97373;
+            --warning: #facc15;
+            --border: #334155;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+        }
+        
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .brand-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-badge.running {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-badge.stopped {
+            background: rgba(249, 115, 115, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-badge.running .status-dot {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+        
+        .status-badge.stopped .status-dot {
+            background: var(--danger);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+        
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: var(--text-primary);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .stat-card {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Token Feed */
+        .token-feed {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .token-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--success);
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+        
+        .token-item.warning {
+            border-left-color: var(--warning);
+        }
+        
+        .token-item.danger {
+            border-left-color: var(--danger);
+        }
+        
+        .token-mint {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .token-time {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+        
+        /* Log Console */
+        .log-console {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+        }
+        
+        .log-entry {
+            padding: 4px 0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .log-time {
+            color: var(--text-muted);
+            min-width: 70px;
+        }
+        
+        .log-message {
+            flex: 1;
+        }
+        
+        .log-entry.success .log-message { color: var(--success); }
+        .log-entry.danger .log-message { color: var(--danger); }
+        .log-entry.warning .log-message { color: var(--warning); }
+        .log-entry.info .log-message { color: var(--accent-cyan); }
+        
+        /* Mode Badge */
+        .mode-badge {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .mode-badge.dry-run {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .mode-badge.live {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        /* License Info */
+        .license-info {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .license-info strong {
+            color: var(--accent-cyan);
+        }
+        
+        /* Connection Status */
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .connection-status.connected {
+            border-color: var(--success);
+        }
+        
+        .connection-status.disconnected {
+            border-color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">SSB</div>
+                <div class="brand-text">
+                    <h1>Sol Sniper Bot PRO</h1>
+                    <span>Cloud Edition • Solana Pump.fun Sniper</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="license-info">
+                    <div>Plan: <strong id="plan-display">{{ license.plan or 'DEMO' }}</strong></div>
+                    <div>Mode: <span class="mode-badge" id="mode-badge">-</span></div>
+                </div>
+                <div class="status-badge stopped" id="status-badge">
+                    <span class="status-dot"></span>
+                    <span id="status-text">Stopped</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="card">
+            <div class="controls">
+                <button class="btn btn-primary" id="start-btn" onclick="startBot()">
+                    ▶ Start Bot
+                </button>
+                <button class="btn btn-danger" id="stop-btn" onclick="stopBot()" disabled>
+                    ⬛ Stop Bot
+                </button>
+                <button class="btn btn-secondary" onclick="clearLogs()">
+                    🗑️ Clear Logs
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-seen">0</div>
+                <div class="stat-label">Tokens Seen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-passed">0</div>
+                <div class="stat-label">Passed Filters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-buys">0</div>
+                <div class="stat-label">Buys</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-positions">0</div>
+                <div class="stat-label">Open Positions</div>
+            </div>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Log Console -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 Live Trading Log</div>
+                </div>
+                <div class="log-console" id="log-console">
+                    <div class="log-entry info">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-message">Waiting to start...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Token Feed -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🚀 Recent Tokens</div>
+                </div>
+                <div class="token-feed" id="token-feed">
+                    <div class="token-item" style="opacity: 0.5;">
+                        <span class="token-mint">No tokens yet...</span>
+                        <span class="token-time">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Connection Status -->
+    <div class="connection-status disconnected" id="connection-status">
+        <span class="status-dot"></span>
+        <span id="connection-text">Connecting...</span>
+    </div>
+    
+    <script>
+        let ws = null;
+        let reconnectAttempts = 0;
+        
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+            
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                document.getElementById('connection-status').className = 'connection-status connected';
+                document.getElementById('connection-text').textContent = 'Connected';
+                reconnectAttempts = 0;
+            };
+            
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleMessage(msg);
+            };
+            
+            ws.onclose = () => {
+                document.getElementById('connection-status').className = 'connection-status disconnected';
+                document.getElementById('connection-text').textContent = 'Disconnected';
+                
+                // Reconnect with backoff
+                reconnectAttempts++;
+                const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+                setTimeout(connectWebSocket, delay);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
+        }
+        
+        function handleMessage(msg) {
+            switch(msg.type) {
+                case 'init':
+                    updateStatus(msg.data);
+                    msg.data.logs.forEach(log => addLogEntry(log));
+                    msg.data.tokens.forEach(token => addTokenEntry(token));
+                    break;
+                case 'status':
+                    updateStatus(msg.data);
+                    break;
+                case 'log':
+                    addLogEntry(msg.data);
+                    break;
+                case 'token':
+                    addTokenEntry(msg.data);
+                    break;
+                case 'stats':
+                    updateStats(msg.data);
+                    break;
+            }
+        }
+        
+        function updateStatus(data) {
+            const badge = document.getElementById('status-badge');
+            const text = document.getElementById('status-text');
+            const modeBadge = document.getElementById('mode-badge');
+            const startBtn = document.getElementById('start-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            
+            if (data.running) {
+                badge.className = 'status-badge running';
+                text.textContent = 'Running';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+            } else {
+                badge.className = 'status-badge stopped';
+                text.textContent = 'Stopped';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+            
+            if (data.mode) {
+                modeBadge.textContent = data.mode;
+                modeBadge.className = 'mode-badge ' + (data.mode === 'LIVE' ? 'live' : 'dry-run');
+            }
+        }
+        
+        function updateStats(stats) {
+            document.getElementById('stat-seen').textContent = stats.tokens_seen || 0;
+            document.getElementById('stat-passed').textContent = stats.tokens_passed || 0;
+            document.getElementById('stat-buys').textContent = (stats.dry_run_buys || 0) + (stats.live_buys || 0);
+            document.getElementById('stat-positions').textContent = stats.open_positions || 0;
+        }
+        
+        function addLogEntry(log) {
+            const console = document.getElementById('log-console');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${log.level}`;
+            entry.innerHTML = `
+                <span class="log-time">${log.time}</span>
+                <span class="log-message">${log.message}</span>
+            `;
+            console.appendChild(entry);
+            console.scrollTop = console.scrollHeight;
+            
+            // Keep only last 200 entries
+            while (console.children.length > 200) {
+                console.removeChild(console.firstChild);
+            }
+        }
+        
+        function addTokenEntry(token) {
+            const feed = document.getElementById('token-feed');
+            
+            // Remove placeholder
+            const placeholder = feed.querySelector('.token-item[style]');
+            if (placeholder) placeholder.remove();
+            
+            const entry = document.createElement('div');
+            entry.className = `token-item ${token.status === 'NEW' ? '' : token.status.toLowerCase()}`;
+            entry.innerHTML = `
+                <span class="token-mint">🚀 ${token.mint}</span>
+                <span class="token-time">${token.time}</span>
+            `;
+            feed.insertBefore(entry, feed.firstChild);
+            
+            // Keep only last 50 entries
+            while (feed.children.length > 50) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+        
+        async function startBot() {
+            try {
+                const response = await fetch('/api/start', { method: 'POST' });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.error || 'Failed to start bot');
+                }
+            } catch (error) {
+                alert('Error starting bot: ' + error);
+            }
+        }
+        
+        async function stopBot() {
+            try {
+                const response = await fetch('/api/stop', { method: 'POST' });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.error || 'Failed to stop bot');
+                }
+            } catch (error) {
+                alert('Error stopping bot: ' + error);
+            }
+        }
+        
+        function clearLogs() {
+            document.getElementById('log-console').innerHTML = `
+                <div class="log-entry info">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-message">Logs cleared</span>
+                </div>
+            `;
+        }
+        
+        // Initialize
+        connectWebSocket();
+        
+        // Keep WebSocket alive
+        setInterval(() => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: 'ping' }));
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+SOL SNIPER BOT PRO - LICENSE AGREEMENT
+
+This End User License Agreement ("Agreement") is a legal agreement between you ("User") 
+and the developers of Sol Sniper Bot PRO ("Software").
+
+BY INSTALLING OR USING THE SOFTWARE, YOU AGREE TO BE BOUND BY THIS AGREEMENT.
+
+1. LICENSE GRANT
+   You are granted a non-exclusive, non-transferable license to use the Software 
+   on a single machine, identified by Hardware ID (HWID).
+
+2. LICENSE TYPES
+   - STANDARD: Limited features, lifetime access
+   - PRO: Full features, lifetime access
+   - ELITE: Premium features, lifetime access
+
+3. RESTRICTIONS
+   You may NOT:
+   - Share, resell, or distribute the Software
+   - Reverse engineer, decompile, or modify the Software
+   - Use the Software on multiple machines without additional licenses
+   - Share your license key or .ssb file with others
+
+4. DISCLAIMER OF WARRANTIES
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+   TRADING CRYPTOCURRENCIES INVOLVES SIGNIFICANT RISK OF LOSS.
+   PAST PERFORMANCE DOES NOT GUARANTEE FUTURE RESULTS.
+
+5. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL THE DEVELOPERS BE LIABLE FOR ANY DAMAGES ARISING 
+   FROM THE USE OF THIS SOFTWARE, INCLUDING BUT NOT LIMITED TO:
+   - Trading losses
+   - Lost profits
+   - Data loss
+   - System failures
+
+6. REFUND POLICY
+   Due to the digital nature of the Software, ALL SALES ARE FINAL.
+   No refunds will be issued after license delivery.
+
+7. UPDATES
+   Updates may be provided at the developer's discretion.
+   License holders may receive free updates for their license tier.
+
+8. TERMINATION
+   This license may be terminated if you violate any terms.
+   Upon termination, you must destroy all copies of the Software.
+
+9. GOVERNING LAW
+   This Agreement shall be governed by applicable international law.
+
+By using Sol Sniper Bot PRO, you acknowledge that you have read, understood, 
+and agree to be bound by this Agreement.
+
+© 2025 Sol Sniper Bot PRO. All Rights Reserved.

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sol Sniper Bot PRO</title>
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --bg-input: #1e293b;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --text-primary: #f9fafb;
+            --text-muted: #9ca3af;
+            --success: #4ade80;
+            --danger: #f97373;
+            --warning: #facc15;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--bg-dark);
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .plan-badge {
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .plan-badge.demo {
+            background: rgba(156, 163, 175, 0.2);
+            color: var(--text-muted);
+        }
+
+        .plan-badge.standard {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .plan-badge.pro {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid var(--accent-purple);
+        }
+
+        .plan-badge.elite {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.running {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-badge.stopped {
+            background: rgba(249, 115, 115, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-badge.running .status-dot {
+            background: var(--success);
+        }
+
+        .status-badge.stopped .status-dot {
+            background: var(--danger);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-dark);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .mode-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .mode-btn.active {
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        /* Log Console */
+        .log-console {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+        }
+
+        .log-entry {
+            padding: 4px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .log-time {
+            color: var(--text-muted);
+            min-width: 70px;
+        }
+
+        .log-entry.success .log-message {
+            color: var(--success);
+        }
+
+        .log-entry.danger .log-message {
+            color: var(--danger);
+        }
+
+        .log-entry.warning .log-message {
+            color: var(--warning);
+        }
+
+        .log-entry.info .log-message {
+            color: var(--accent-cyan);
+        }
+
+        /* Token Feed */
+        .token-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--success);
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+
+        .token-mint {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .token-time {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        /* Config Panel */
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .config-item {
+            padding: 10px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+        }
+
+        .config-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .config-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Upgrade Banner */
+        .upgrade-banner {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(34, 211, 238, 0.2));
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .upgrade-banner p {
+            font-size: 14px;
+        }
+
+        .upgrade-banner .btn {
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">SSB</div>
+                <div class="brand-text">
+                    <h1>Sol Sniper Bot PRO</h1>
+                    <span>CLOUD TRADING DASHBOARD</span>
+                </div>
+            </div>
+            <div class="user-info">
+                <span class="plan-badge demo" id="plan-badge">DEMO</span>
+                <div class="status-badge stopped" id="status-badge">
+                    <span class="status-dot"></span>
+                    <span id="status-text">Stopped</span>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Upgrade Banner (for non-paid users) -->
+        <div class="upgrade-banner" id="upgrade-banner" style="display: none;">
+            <p>⚡ <strong>Upgrade to unlock LIVE trading!</strong> DRY RUN is free but no real profits.</p>
+            <a href="/pricing" class="btn btn-primary">View Plans</a>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-seen">0</div>
+                <div class="stat-label">Tokens Seen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-passed">0</div>
+                <div class="stat-label">Passed Filters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-buys">0</div>
+                <div class="stat-label">Buys</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-positions">0</div>
+                <div class="stat-label">Open Positions</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-primary" id="start-btn" onclick="startBot()">▶ Start Bot</button>
+            <button class="btn btn-danger" id="stop-btn" onclick="stopBot()" disabled>⬛ Stop Bot</button>
+            <button class="btn btn-secondary" onclick="clearLogs()">🗑️ Clear Logs</button>
+
+            <div class="mode-toggle">
+                <span style="color: var(--text-muted); font-size: 12px;">Mode:</span>
+                <button class="btn btn-secondary mode-btn active" id="mode-dry" onclick="setMode('DRY_RUN')">DRY
+                    RUN</button>
+                <button class="btn btn-secondary mode-btn" id="mode-live" onclick="setMode('LIVE')">LIVE</button>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Log Console -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 Live Trading Log</div>
+                </div>
+                <div class="log-console" id="log-console">
+                    <div class="log-entry info">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-message">Waiting to start...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div>
+                <!-- Recent Tokens -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🚀 Recent Tokens</div>
+                    </div>
+                    <div id="token-feed" style="max-height: 200px; overflow-y: auto;">
+                        <div class="token-item" style="opacity: 0.5;">
+                            <span class="token-mint">No tokens yet...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Config -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">⚙️ Configuration</div>
+                    </div>
+                    <div class="config-grid" id="config-grid">
+                        <div class="config-item">
+                            <div class="config-label">Engine</div>
+                            <div class="config-value" id="cfg-engine">-</div>
+                        </div>
+                        <div class="config-item">
+                            <div class="config-label">Buy Amount</div>
+                            <div class="config-value" id="cfg-buy">- SOL</div>
+                        </div>
+                        <div class="config-item">
+                            <div class="config-label">TP / SL</div>
+                            <div class="config-value" id="cfg-tpsl">- / -%</div>
+                        </div>
+                        <div class="config-item">
+                            <div class="config-label">Min Confidence</div>
+                            <div class="config-value" id="cfg-conf">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'DRY_RUN';
+        let isRunning = false;
+        let currentPlan = 'DEMO';
+
+        // Check auth on load
+        async function init() {
+            try {
+                const response = await fetch('/auth/me');
+                if (!response.ok) {
+                    window.location.href = '/';
+                    return;
+                }
+
+                // Load bot status
+                await loadStatus();
+
+                // Load subscription
+                await loadSubscription();
+
+                // Connect WebSocket for logs
+                // connectWebSocket();
+
+            } catch (error) {
+                window.location.href = '/';
+            }
+        }
+
+        async function loadStatus() {
+            try {
+                const response = await fetch('/bot/status');
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus(data);
+                    updateConfig(data.config);
+                }
+            } catch (error) {
+                console.error('Failed to load status', error);
+            }
+        }
+
+        async function loadSubscription() {
+            try {
+                const response = await fetch('/billing/subscription');
+                if (response.ok) {
+                    const sub = await response.json();
+                    if (sub) {
+                        currentPlan = sub.plan_id.toUpperCase();
+                        document.getElementById('plan-badge').textContent = currentPlan;
+                        document.getElementById('plan-badge').className = 'plan-badge ' + currentPlan.toLowerCase();
+                        document.getElementById('upgrade-banner').style.display = 'none';
+                    } else {
+                        document.getElementById('upgrade-banner').style.display = 'flex';
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load subscription', error);
+            }
+        }
+
+        function updateStatus(data) {
+            isRunning = data.running;
+            const badge = document.getElementById('status-badge');
+            const text = document.getElementById('status-text');
+
+            if (data.running) {
+                badge.className = 'status-badge running';
+                text.textContent = 'Running';
+                document.getElementById('start-btn').disabled = true;
+                document.getElementById('stop-btn').disabled = false;
+            } else {
+                badge.className = 'status-badge stopped';
+                text.textContent = 'Stopped';
+                document.getElementById('start-btn').disabled = false;
+                document.getElementById('stop-btn').disabled = true;
+            }
+        }
+
+        function updateConfig(config) {
+            if (!config) return;
+            document.getElementById('cfg-engine').textContent = config.engine_profile || '-';
+            document.getElementById('cfg-buy').textContent = (config.buy_amount_sol || 0) + ' SOL';
+            document.getElementById('cfg-tpsl').textContent = `${config.take_profit_percent || 0}% / ${config.stop_loss_percent || 0}%`;
+            document.getElementById('cfg-conf').textContent = config.min_confidence_score || '-';
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-dry').classList.toggle('active', mode === 'DRY_RUN');
+            document.getElementById('mode-live').classList.toggle('active', mode === 'LIVE');
+        }
+
+        async function startBot() {
+            try {
+                const response = await fetch('/bot/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: currentMode })
+                });
+
+                if (response.ok) {
+                    addLog('⚡ Starting bot...', 'info');
+                    await loadStatus();
+                } else {
+                    const data = await response.json();
+                    addLog('❌ ' + data.detail, 'danger');
+                }
+            } catch (error) {
+                addLog('❌ Failed to start bot', 'danger');
+            }
+        }
+
+        async function stopBot() {
+            try {
+                const response = await fetch('/bot/stop', { method: 'POST' });
+                if (response.ok) {
+                    addLog('🛑 Stopping bot...', 'info');
+                    await loadStatus();
+                }
+            } catch (error) {
+                addLog('❌ Failed to stop bot', 'danger');
+            }
+        }
+
+        function addLog(message, level = 'info') {
+            const console = document.getElementById('log-console');
+            const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${level}`;
+            entry.innerHTML = `<span class="log-time">${time}</span><span class="log-message">${message}</span>`;
+            console.appendChild(entry);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('log-console').innerHTML = `
+                <div class="log-entry info">
+                    <span class="log-time">--:--:--</span>
+                    <span class="log-message">Logs cleared</span>
+                </div>
+            `;
+        }
+
+        async function logout() {
+            await fetch('/auth/logout', { method: 'POST' });
+            window.location.href = '/';
+        }
+
+        // Initialize
+        init();
+
+        // Poll for updates (simple approach, WebSocket would be better)
+        setInterval(loadStatus, 5000);
+    </script>
+</body>
+
+</html>

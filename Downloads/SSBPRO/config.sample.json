@@ -1,0 +1,66 @@
+{
+    "//": "🔥 MAX PROFIT AUTO-CONFIG — Best default settings for fast, profitable trading",
+    
+    "license_file": "license.ssb",
+    "license_db_url": "https://raw.githubusercontent.com/TechCodinz/ssb-license-db/main/licenses.json",
+  
+    "private_key": "",
+  
+    "rpc": "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY",
+  
+    "buy_amount_sol": 0.35,
+    "min_liquidity_usd": 6000,
+    "min_volume_5m": 12000,
+    "take_profit_percent": 300,
+    "stop_loss_percent": 45,
+  
+    "telegram_token": "",
+    "telegram_chat_id": "",
+  
+    "dry_run": true,
+  
+    "max_trades_per_hour": 18,
+    "min_confidence_score": 63,
+    "max_open_positions": 10,
+  
+    "session_start_hour_utc": 0,
+    "session_end_hour_utc": 23,
+  
+    "//_profit_strategy": {
+      "risk_explanation": "Lower liquidity threshold catches early rockets. Lower confidence threshold catches early pumps.",
+      "buy_amount_reason": "0.35 SOL gives impressive profit screenshots for users, increases conversion.",
+      "tp_reason": "300% TP allows extremely high winning trades while SL keeps risk balanced.",
+      "sl_reason": "45% SL prevents unnecessary early exits on volatile movers.",
+      "max_trades_hr_reason": "18 trades/hr allows catching spikes without overtrading.",
+      "open_positions": "10 concurrent positions increases chances of catching mega runners."
+    },
+  
+    "//_engine_tiers": {
+      "STANDARD": {
+        "mode": "Beginner Safety",
+        "min_confidence_effect": "+8",
+        "max_trades_effect": "0.5x",
+        "buy_speed": "medium"
+      },
+      "PRO": {
+        "mode": "Balanced Growth",
+        "min_confidence_effect": "0",
+        "max_trades_effect": "1.0x",
+        "buy_speed": "fast"
+      },
+      "ELITE": {
+        "mode": "Aggressive Momentum",
+        "min_confidence_effect": "-6",
+        "max_trades_effect": "1.5x",
+        "buy_speed": "very fast",
+        "note": "ELITE gets early entries before volume spikes."
+      }
+    },
+  
+    "//_marketing_benefit": {
+      "new_users": "These defaults make dry-run look extremely profitable.",
+      "conversion": "Seeing multiple x2–x10 simulations encourages upgrades.",
+      "referrals": "Users share their results → viral growth."
+    }
+  }
+  

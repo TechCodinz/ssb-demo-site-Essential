@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - SSB Cloud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .error-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ef4444;
+        }
+
+        .error-message {
+            color: #888;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .error-details {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .error-details code {
+            color: #ef4444;
+            font-family: monospace;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #7c3aed, #00d4ff);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .support-link {
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .support-link a {
+            color: #7c3aed;
+            text-decoration: none;
+        }
+
+        /* Error type specific */
+        .error-expired .error-icon {
+            color: #f59e0b;
+        }
+
+        .error-expired .error-title {
+            color: #f59e0b;
+        }
+
+        .error-suspended .error-icon {
+            color: #ef4444;
+        }
+
+        .error-invalid .error-icon {
+            color: #888;
+        }
+
+        .error-invalid .error-title {
+            color: #888;
+        }
+
+        .error-locked .error-icon {
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container" id="errorContainer">
+        <div class="error-icon" id="errorIcon">⚠️</div>
+        <h1 class="error-title" id="errorTitle">Access Denied</h1>
+        <p class="error-message" id="errorMessage">Something went wrong.</p>
+        <div class="error-details" id="errorDetails" style="display: none;">
+            <strong>Error Code:</strong> <code id="errorCode"></code>
+        </div>
+        <div id="actionButtons">
+            <a href="/cloud-login" class="btn btn-primary">Try Again</a>
+        </div>
+        <div class="support-link">
+            Need help? <a href="https://t.me/ssbprosupport">Contact Support</a>
+        </div>
+    </div>
+
+    <script>
+        // Parse error from URL or localStorage
+        const params = new URLSearchParams(window.location.search);
+        const errorType = params.get('type') || localStorage.getItem('error_type') || 'unknown';
+        const errorDetail = params.get('detail') || localStorage.getItem('error_detail') || '';
+
+        const container = document.getElementById('errorContainer');
+        const icon = document.getElementById('errorIcon');
+        const title = document.getElementById('errorTitle');
+        const message = document.getElementById('errorMessage');
+        const details = document.getElementById('errorDetails');
+        const code = document.getElementById('errorCode');
+        const actions = document.getElementById('actionButtons');
+
+        // Configure based on error type
+        switch (errorType) {
+            case 'expired':
+                container.className = 'error-container error-expired';
+                icon.textContent = '⏰';
+                title.textContent = 'Subscription Expired';
+                message.textContent = 'Your cloud subscription has expired. Renew now to continue using the trading bot.';
+                actions.innerHTML = `
+                    <a href="/cloud-renew" class="btn btn-primary">Renew Now</a>
+                    <a href="/cloud-login" class="btn btn-secondary">Login (DRY RUN)</a>
+                `;
+                break;
+
+            case 'suspended':
+                container.className = 'error-container error-suspended';
+                icon.textContent = '🚫';
+                title.textContent = 'Account Suspended';
+                message.textContent = 'Your account has been suspended by the administrator.';
+                if (errorDetail) {
+                    details.style.display = 'block';
+                    code.textContent = errorDetail;
+                }
+                actions.innerHTML = `
+                    <a href="https://t.me/ssbprosupport" class="btn btn-primary">Contact Support</a>
+                `;
+                break;
+
+            case 'invalid':
+                container.className = 'error-container error-invalid';
+                icon.textContent = '❓';
+                title.textContent = 'Invalid Token';
+                message.textContent = 'The cloud access token you entered is not valid. Please check and try again.';
+                actions.innerHTML = `
+                    <a href="/cloud-login" class="btn btn-primary">Try Again</a>
+                `;
+                break;
+
+            case 'locked':
+                container.className = 'error-container error-locked';
+                icon.textContent = '🔒';
+                title.textContent = 'Account Locked';
+                message.textContent = 'Your account has been locked due to too many failed login attempts. Contact support to unlock.';
+                actions.innerHTML = `
+                    <a href="https://t.me/ssbprosupport" class="btn btn-primary">Contact Support</a>
+                `;
+                break;
+
+            case 'device':
+                container.className = 'error-container';
+                icon.textContent = '📱';
+                title.textContent = 'Device Mismatch';
+                message.textContent = 'This token is bound to a different device. You need to verify your email to continue.';
+                actions.innerHTML = `
+                    <a href="/cloud-login" class="btn btn-primary">Verify Email</a>
+                `;
+                break;
+
+            case 'instance':
+                container.className = 'error-container';
+                icon.textContent = '☁️';
+                title.textContent = 'Wrong Cloud Instance';
+                message.textContent = 'This token is bound to a different cloud deployment. Contact support if you need to transfer.';
+                actions.innerHTML = `
+                    <a href="https://t.me/ssbprosupport" class="btn btn-primary">Contact Support</a>
+                `;
+                break;
+
+            default:
+                icon.textContent = '⚠️';
+                title.textContent = 'Error';
+                message.textContent = errorDetail || 'An unexpected error occurred. Please try again.';
+        }
+
+        // Clear stored error
+        localStorage.removeItem('error_type');
+        localStorage.removeItem('error_detail');
+    </script>
+</body>
+
+</html>
