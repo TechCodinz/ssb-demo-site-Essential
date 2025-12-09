@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register – Sol Sniper Bot PRO Cloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #020617;
+            --accent: #22d3ee;
+            --accent2: #a855f7;
+            --text: #f9fafb;
+            --muted: #9ca3af;
+            --success: #4ade80;
+            --card: rgba(15, 23, 42, 0.96);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: radial-gradient(ellipse at top, #111827 0%, #020617 50%, #000 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: var(--card);
+            border: 1px solid rgba(55, 65, 81, 0.8);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(168, 85, 247, 0.1);
+        }
+
+        .register-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .register-logo .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #a855f7, #22d3ee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 12px;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+        }
+
+        .register-logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .register-logo p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .info-box {
+            background: rgba(34, 211, 238, 0.08);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .info-box h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .info-box ol {
+            padding-left: 18px;
+            color: var(--muted);
+        }
+
+        .info-box li {
+            margin: 6px 0;
+        }
+
+        .btn-primary,
+        .btn-outline {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 999px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22d3ee, #a855f7);
+            color: #0b1120;
+            box-shadow: 0 0 28px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(55, 65, 81, 0.8);
+            color: var(--muted);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-logo">
+            <div class="icon">📝</div>
+            <h1>Create Cloud Account</h1>
+            <p>Get your license and start trading</p>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 How to Get Started</h3>
+            <ol>
+                <li>Choose a plan (Cloud or EXE)</li>
+                <li>Pay with USDT (TRC20)</li>
+                <li>Submit payment proof via web form or Telegram</li>
+                <li>Receive license token via email (5-60 min)</li>
+                <li>Login with your email + token</li>
+            </ol>
+        </div>
+
+        <a href="/cloud#pricing" class="btn-primary">💳 View Pricing & Pay</a>
+        <a href="https://t.me/SSB_OrderBot" target="_blank" class="btn-outline">📱 Order via Telegram Bot</a>
+
+        <div style="text-align:center; margin-top:16px; font-size:12px; color:var(--muted);">
+            Already have a license? <a href="/cloud/login" style="color:var(--accent);">Login here</a>
+        </div>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</body>
+
+</html>

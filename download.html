@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Download – Sol Sniper Bot PRO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #020617;
+            --accent: #22d3ee;
+            --accent2: #a855f7;
+            --text: #f9fafb;
+            --muted: #9ca3af;
+            --success: #4ade80;
+            --card: rgba(15, 23, 42, 0.96);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: radial-gradient(ellipse at top, #111827 0%, #020617 50%, #000 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .download-card {
+            background: var(--card);
+            border: 1px solid rgba(55, 65, 81, 0.8);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .download-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.15);
+        }
+
+        .download-card .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .download-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .download-card p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .download-card ul {
+            text-align: left;
+            padding-left: 24px;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .download-card li {
+            margin: 4px 0;
+        }
+
+        .btn-primary,
+        .btn-outline {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22d3ee, #a855f7);
+            color: #0b1120;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(55, 65, 81, 0.8);
+            color: var(--muted);
+            margin-left: 8px;
+        }
+
+        .badge-free {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            font-size: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .badge-paid {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent2);
+            font-size: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .requirements {
+            margin-top: 32px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        .requirements h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .requirements ul {
+            font-size: 12px;
+            color: var(--muted);
+            padding-left: 20px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 32px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>⬇️ Download Sol Sniper Bot PRO</h1>
+        <p class="subtitle">Choose your version – DRY RUN demo is completely free</p>
+
+        <div class="download-grid">
+            <!-- FREE DEMO -->
+            <div class="download-card">
+                <div class="icon">🆓</div>
+                <span class="badge-free">FREE</span>
+                <h3>DRY RUN Demo</h3>
+                <p>Test the AI engine risk-free with simulated trades</p>
+                <ul>
+                    <li>Full AI Risk Engine v3</li>
+                    <li>Simulated trades (no real $)</li>
+                    <li>Console logs & metrics</li>
+                    <li>No license required</li>
+                </ul>
+                <a href="/SolSniperBotPRO.zip" class="btn-primary">⬇️ Download EXE</a>
+            </div>
+
+            <!-- LICENSED VERSION -->
+            <div class="download-card">
+                <div class="icon">💎</div>
+                <span class="badge-paid">LICENSED</span>
+                <h3>Full Version</h3>
+                <p>Live trading with all features unlocked</p>
+                <ul>
+                    <li>Real live trading</li>
+                    <li>All plan features (STD/PRO/ELITE)</li>
+                    <li>License + HWID binding</li>
+                    <li>Updates & support</li>
+                </ul>
+                <a href="/cloud#pricing" class="btn-primary">💳 Get License</a>
+            </div>
+        </div>
+
+        <div class="requirements">
+            <h3>📋 System Requirements</h3>
+            <ul>
+                <li><strong>OS:</strong> Windows 10/11 (EXE) or Python 3.10+ (Source)</li>
+                <li><strong>RAM:</strong> 4GB minimum, 8GB recommended</li>
+                <li><strong>Network:</strong> Stable internet connection</li>
+                <li><strong>RPC:</strong> Helius, Quicknode, or Alchemy endpoint</li>
+                <li><strong>Wallet:</strong> Solana wallet with SOL for trading</li>
+            </ul>
+        </div>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+</body>
+
+</html>

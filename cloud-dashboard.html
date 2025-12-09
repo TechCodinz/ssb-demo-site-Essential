@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSB Cloud Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .plan-badge {
+            background: linear-gradient(90deg, #7c3aed, #00d4ff);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .days-remaining {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .card-header .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.running {
+            background: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        .status-dot.stopped {
+            background: #ef4444;
+        }
+
+        /* Settings Form */
+        .setting-group {
+            margin-bottom: 15px;
+        }
+
+        .setting-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .setting-group input,
+        .setting-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .setting-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-start {
+            background: linear-gradient(90deg, #22c55e, #10b981);
+            color: #fff;
+        }
+
+        .btn-stop {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            color: #fff;
+        }
+
+        .btn-save {
+            background: linear-gradient(90deg, #7c3aed, #00d4ff);
+            color: #fff;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Logs Panel */
+        .logs-panel {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 900px) {
+            .logs-panel {
+                grid-column: span 1;
+            }
+        }
+
+        .logs-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .log-entry.info {
+            color: #00d4ff;
+        }
+
+        .log-entry.success {
+            color: #22c55e;
+        }
+
+        .log-entry.warning {
+            color: #f59e0b;
+        }
+
+        .log-entry.error {
+            color: #ef4444;
+        }
+
+        .log-time {
+            color: #666;
+            margin-right: 10px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Engine Mode */
+        .engine-mode {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-option {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-option.active {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        .mode-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Renew banner */
+        .renew-banner {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(124, 58, 237, 0.2));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .renew-banner.show {
+            display: block;
+        }
+
+        .renew-banner a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>🚀 SSB Cloud Dashboard</h1>
+        <div class="user-info">
+            <span class="plan-badge" id="planBadge">ELITE</span>
+            <span class="days-remaining" id="daysRemaining">27 days remaining</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="renew-banner" id="renewBanner">
+        ⚠️ Your subscription expires soon! <a href="/cloud-renew">Renew now →</a>
+    </div>
+
+    <div class="main-container">
+        <!-- Bot Control -->
+        <div class="card">
+            <div class="card-header">
+                <h2>🤖 Bot Control</h2>
+                <div class="status">
+                    <span class="status-dot stopped" id="statusDot"></span>
+                    <span id="statusText">Stopped</span>
+                </div>
+            </div>
+
+            <div class="engine-mode">
+                <div class="mode-option" id="modeDryRun" onclick="setMode('DRY_RUN')">
+                    <div>🧪</div>
+                    <div>DRY RUN</div>
+                </div>
+                <div class="mode-option active" id="modeLive" onclick="setMode('LIVE')">
+                    <div>⚡</div>
+                    <div>LIVE</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalTrades">0</div>
+                    <div class="stat-label">Total Trades</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="profitPercent">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="openPositions">0</div>
+                    <div class="stat-label">Open Positions</div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-start" id="startBtn" onclick="startBot()">▶ Start Bot</button>
+                <button class="btn btn-stop" id="stopBtn" onclick="stopBot()" style="display: none;">⬛ Stop Bot</button>
+            </div>
+        </div>
+
+        <!-- Trading Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h2>⚙️ Trading Settings</h2>
+            </div>
+
+            <div class="setting-group">
+                <label>RPC Endpoint</label>
+                <input type="text" id="rpcUrl" placeholder="https://api.mainnet-beta.solana.com">
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-group">
+                    <label>Buy Amount (SOL)</label>
+                    <input type="number" id="buyAmount" value="0.25" step="0.01">
+                </div>
+                <div class="setting-group">
+                    <label>Min Liquidity (USD)</label>
+                    <input type="number" id="minLiquidity" value="8000">
+                </div>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-group">
+                    <label>Take Profit %</label>
+                    <input type="number" id="takeProfit" value="250">
+                </div>
+                <div class="setting-group">
+                    <label>Stop Loss %</label>
+                    <input type="number" id="stopLoss" value="60">
+                </div>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-group">
+                    <label>Min Confidence Score</label>
+                    <input type="number" id="minConfidence" value="70" min="50" max="95">
+                </div>
+                <div class="setting-group">
+                    <label>Max Open Positions</label>
+                    <input type="number" id="maxPositions" value="8" min="1" max="20">
+                </div>
+            </div>
+
+            <button class="btn btn-save" onclick="saveSettings()">💾 Save Settings</button>
+        </div>
+
+        <!-- Real-time Logs -->
+        <div class="card logs-panel">
+            <div class="card-header">
+                <h2>📊 Live Logs</h2>
+                <button class="logout-btn" onclick="clearLogs()">Clear</button>
+            </div>
+            <div class="logs-container" id="logsContainer">
+                <div class="log-entry info"><span class="log-time">[System]</span> Dashboard loaded. Ready to connect.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/cloud';
+        let token = '';
+        let isRunning = false;
+        let heartbeatInterval = null;
+
+        // Check auth
+        document.addEventListener('DOMContentLoaded', () => {
+            token = localStorage.getItem('cloud_token');
+            if (!token) {
+                window.location.href = '/cloud-login';
+                return;
+            }
+            loadUserInfo();
+            loadSettings();
+            startHeartbeat();
+        });
+
+        async function loadUserInfo() {
+            try {
+                const res = await fetch(`${API_BASE}/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 403) {
+                        logout();
+                        return;
+                    }
+                }
+
+                const data = await res.json();
+                document.getElementById('planBadge').textContent = data.plan;
+                document.getElementById('daysRemaining').textContent = `${data.days_remaining} days remaining`;
+
+                if (data.days_remaining <= 5) {
+                    document.getElementById('renewBanner').classList.add('show');
+                }
+
+                // Restrict mode based on plan
+                if (data.plan === 'STANDARD') {
+                    document.getElementById('modeLive').classList.add('disabled');
+                    document.getElementById('modeDryRun').classList.add('active');
+                    document.getElementById('modeLive').classList.remove('active');
+                }
+            } catch (err) {
+                addLog('error', 'Failed to load user info');
+            }
+        }
+
+        async function loadSettings() {
+            try {
+                const res = await fetch(`${API_BASE}/settings`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                document.getElementById('minConfidence').value = data.min_confidence_score || 70;
+                addLog('info', `Settings loaded for ${data.plan} plan`);
+            } catch (err) {
+                addLog('error', 'Failed to load settings');
+            }
+        }
+
+        function startHeartbeat() {
+            // Send heartbeat every 20 seconds
+            const deviceId = localStorage.getItem('ssb_device_id') || 'unknown';
+
+            heartbeatInterval = setInterval(async () => {
+                try {
+                    await fetch(`${API_BASE}/heartbeat`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ device_id: deviceId })
+                    });
+                } catch (err) {
+                    addLog('warning', 'Heartbeat failed');
+                }
+            }, 20000);
+
+            // Send initial heartbeat
+            fetch(`${API_BASE}/heartbeat`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ device_id: deviceId })
+            });
+        }
+
+        function setMode(mode) {
+            if (mode === 'LIVE' && document.getElementById('modeLive').classList.contains('disabled')) {
+                addLog('warning', 'LIVE mode not available on STANDARD plan');
+                return;
+            }
+
+            document.querySelectorAll('.mode-option').forEach(m => m.classList.remove('active'));
+            document.getElementById(`mode${mode === 'DRY_RUN' ? 'DryRun' : 'Live'}`).classList.add('active');
+            addLog('info', `Mode set to ${mode}`);
+        }
+
+        function startBot() {
+            isRunning = true;
+            document.getElementById('statusDot').classList.remove('stopped');
+            document.getElementById('statusDot').classList.add('running');
+            document.getElementById('statusText').textContent = 'Running';
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'block';
+            addLog('success', '🚀 Bot started successfully!');
+        }
+
+        function stopBot() {
+            isRunning = false;
+            document.getElementById('statusDot').classList.remove('running');
+            document.getElementById('statusDot').classList.add('stopped');
+            document.getElementById('statusText').textContent = 'Stopped';
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('stopBtn').style.display = 'none';
+            addLog('warning', '⬛ Bot stopped');
+        }
+
+        function saveSettings() {
+            addLog('success', '💾 Settings saved successfully');
+        }
+
+        function addLog(level, message) {
+            const container = document.getElementById('logsContainer');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${level}`;
+            entry.innerHTML = `<span class="log-time">[${time}]</span> ${message}`;
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logsContainer').innerHTML = '';
+        }
+
+        function logout() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            localStorage.removeItem('cloud_token');
+            window.location.href = '/cloud-login';
+        }
+    </script>
+</body>
+
+</html>
