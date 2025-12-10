@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Sol Sniper Bot PRO</title>
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --bg-input: #1e293b;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --text-primary: #f9fafb;
+            --text-muted: #9ca3af;
+            --success: #4ade80;
+            --danger: #f97373;
+            --warning: #facc15;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--bg-dark);
+            margin: 0 auto 20px;
+            box-shadow: 0 0 50px rgba(34, 211, 238, 0.4);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        .plan-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .plan-card.popular {
+            border: 2px solid var(--accent-purple);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-purple);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plan-desc {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        .plan-billing {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: var(--success);
+        }
+
+        .cross {
+            color: var(--text-muted);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 999px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .payment-info {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .payment-info h3 {
+            margin-bottom: 15px;
+        }
+
+        .wallet-address {
+            background: var(--bg-dark);
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">SSB</div>
+            <h1>Choose Your Plan</h1>
+            <p class="subtitle">Unlock LIVE trading with a lifetime license</p>
+        </div>
+
+        <div class="plans-grid">
+            <!-- STANDARD -->
+            <div class="plan-card">
+                <div class="plan-name">STANDARD</div>
+                <div class="plan-desc">Beginner Safety Engine</div>
+                <div class="plan-price">$199<span> USDT</span></div>
+                <div class="plan-billing">One-time payment • Lifetime access</div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> LIVE Trading Mode</li>
+                    <li><span class="check">✓</span> 7 trades/hour limit</li>
+                    <li><span class="check">✓</span> 5 max open positions</li>
+                    <li><span class="check">✓</span> Conservative risk engine</li>
+                    <li><span class="cross">✗</span> Trailing stop-loss</li>
+                    <li><span class="cross">✗</span> Priority fees</li>
+                </ul>
+                <button class="btn btn-secondary" onclick="openCheckout('standard', 199)">Get Standard</button>
+            </div>
+
+            <!-- PRO -->
+            <div class="plan-card popular">
+                <span class="popular-badge">Most Popular</span>
+                <div class="plan-name" style="color: var(--accent-purple);">PRO</div>
+                <div class="plan-desc">Balanced Growth Engine</div>
+                <div class="plan-price">$499<span> USDT</span></div>
+                <div class="plan-billing">One-time payment • Lifetime access</div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> LIVE Trading Mode</li>
+                    <li><span class="check">✓</span> 12 trades/hour limit</li>
+                    <li><span class="check">✓</span> 8 max open positions</li>
+                    <li><span class="check">✓</span> Optimized risk engine</li>
+                    <li><span class="check">✓</span> Trailing stop-loss</li>
+                    <li><span class="check">✓</span> 1.5x Priority fees</li>
+                </ul>
+                <button class="btn btn-primary" onclick="openCheckout('pro', 499)">Get Pro</button>
+            </div>
+
+            <!-- ELITE -->
+            <div class="plan-card">
+                <div class="plan-name" style="color: var(--warning);">ELITE</div>
+                <div class="plan-desc">Aggressive Momentum Engine</div>
+                <div class="plan-price">$899<span> USDT</span></div>
+                <div class="plan-billing">One-time payment • Lifetime access</div>
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> LIVE Trading Mode</li>
+                    <li><span class="check">✓</span> 18 trades/hour limit</li>
+                    <li><span class="check">✓</span> 10 max open positions</li>
+                    <li><span class="check">✓</span> Aggressive risk engine</li>
+                    <li><span class="check">✓</span> Early entry boost</li>
+                    <li><span class="check">✓</span> 2x Priority fees</li>
+                </ul>
+                <button class="btn btn-secondary" onclick="openCheckout('elite', 899)">Get Elite</button>
+            </div>
+        </div>
+
+        <div class="payment-info">
+            <h3>💰 Pay with USDT (TRC20)</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">Send exact amount to:</p>
+            <div class="wallet-address" id="wallet-address">TBxck6t1a3pZE2YLho4Su1PcGKd2yK2zD4</div>
+            <p style="color: var(--text-muted); font-size: 13px;">After payment, submit your TX hash to verify
+                instantly.</p>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2>Complete Payment</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">
+                Plan: <strong id="modal-plan">-</strong> • Amount: <strong id="modal-amount">$0</strong> USDT
+            </p>
+
+            <div id="order-step">
+                <p style="margin-bottom: 20px;">1. Send the exact amount to:</p>
+                <div class="wallet-address" id="modal-wallet">TBxck6t1a3pZE2YLho4Su1PcGKd2yK2zD4</div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 20px;">
+                    Reference: <strong id="modal-ref">-</strong>
+                </p>
+                <button class="btn btn-primary" onclick="showVerifyStep()">I've Sent Payment</button>
+            </div>
+
+            <div id="verify-step" style="display: none;">
+                <div class="form-group">
+                    <label>Transaction Hash</label>
+                    <input type="text" id="tx-hash" placeholder="Paste your TRON TX hash here">
+                </div>
+                <button class="btn btn-primary" onclick="verifyPayment()">Verify Payment</button>
+                <p id="verify-result" style="margin-top: 15px; text-align: center;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOrderRef = '';
+        let currentPlanId = '';
+
+        async function openCheckout(planId, amount) {
+            // Check if logged in
+            try {
+                const authRes = await fetch('/auth/me');
+                if (!authRes.ok) {
+                    window.location.href = '/register';
+                    return;
+                }
+            } catch {
+                window.location.href = '/register';
+                return;
+            }
+
+            currentPlanId = planId;
+            document.getElementById('modal-plan').textContent = planId.toUpperCase();
+            document.getElementById('modal-amount').textContent = '$' + amount;
+
+            // Create order
+            try {
+                const response = await fetch('/billing/create-crypto-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan_id: planId })
+                });
+
+                if (response.ok) {
+                    const order = await response.json();
+                    currentOrderRef = order.reference_code;
+                    document.getElementById('modal-ref').textContent = order.reference_code;
+                    document.getElementById('modal-wallet').textContent = order.wallet_address;
+
+                    document.getElementById('order-step').style.display = 'block';
+                    document.getElementById('verify-step').style.display = 'none';
+                    document.getElementById('payment-modal').classList.add('active');
+                } else {
+                    const data = await response.json();
+                    alert(data.detail || 'Failed to create order');
+                }
+            } catch (error) {
+                alert('Connection error');
+            }
+        }
+
+        function showVerifyStep() {
+            document.getElementById('order-step').style.display = 'none';
+            document.getElementById('verify-step').style.display = 'block';
+        }
+
+        async function verifyPayment() {
+            const txHash = document.getElementById('tx-hash').value.trim();
+            const resultEl = document.getElementById('verify-result');
+
+            if (!txHash) {
+                resultEl.innerHTML = '<span style="color: var(--danger);">Please enter TX hash</span>';
+                return;
+            }
+
+            resultEl.innerHTML = '<span style="color: var(--accent-cyan);">Verifying...</span>';
+
+            try {
+                const response = await fetch('/billing/verify-crypto-tx', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reference_code: currentOrderRef, tx_hash: txHash })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultEl.innerHTML = '<span style="color: var(--success);">✓ Payment verified! Redirecting...</span>';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                } else {
+                    resultEl.innerHTML = `<span style="color: var(--danger);">${data.detail || 'Verification failed'}</span>`;
+                }
+            } catch (error) {
+                resultEl.innerHTML = '<span style="color: var(--danger);">Connection error</span>';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSB Cloud Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0f;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .admin-header {
+            background: linear-gradient(90deg, #1a1a2e, #16213e);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .admin-header h1 {
+            font-size: 22px;
+            color: #ef4444;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #111;
+            padding: 20px;
+            border-right: 1px solid #333;
+        }
+
+        .sidebar-item {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #888;
+            transition: all 0.3s;
+        }
+
+        .sidebar-item:hover,
+        .sidebar-item.active {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Users Table */
+        .table-container {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .table-header input {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #fff;
+            width: 300px;
+        }
+
+        .filter-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+
+        th {
+            background: #0a0a0a;
+            color: #888;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .user-email {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .user-token {
+            font-family: monospace;
+            font-size: 12px;
+            background: #1a1a1a;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .badge-expired {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .badge-suspicious {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .badge-standard {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9ca3af;
+        }
+
+        .badge-pro {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .badge-elite {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-renew {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .btn-suspend {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-reset {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .btn-view {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        /* Add User Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #0a0a0f;
+            color: #fff;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Activity logs */
+        .logs-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #222;
+        }
+
+        .log-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .log-action {
+            font-weight: 500;
+        }
+
+        .log-time {
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="admin-header">
+        <h1>🔒 SSB Cloud Admin Panel</h1>
+        <div>
+            <span style="color: #888; margin-right: 15px;">Admin</span>
+            <button onclick="logout()"
+                style="background: #ef4444; border: none; color: #fff; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Logout</button>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-item active" onclick="showSection('dashboard')">📊 Dashboard</div>
+            <div class="sidebar-item" onclick="showSection('users')">👥 Users</div>
+            <div class="sidebar-item" onclick="showSection('monitoring')">🔍 Monitoring</div>
+            <div class="sidebar-item" onclick="showSection('logs')">📋 Activity Logs</div>
+            <div class="sidebar-item" onclick="showSection('settings')">⚙️ Settings</div>
+            <hr style="border-color: #333; margin: 20px 0;">
+            <div class="sidebar-item" style="color: #ef4444;" onclick="killSwitch()">⛔ Kill Switch</div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboardSection">
+                <h2 class="section-title">📊 Dashboard</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeUsers">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="expiredUsers">0</div>
+                        <div class="stat-label">Expired</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="suspiciousUsers">0</div>
+                        <div class="stat-label">Suspicious</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-value" id="standardCount">0</div>
+                        <div class="stat-label">Standard Plans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="proCount">0</div>
+                        <div class="stat-label">Pro Plans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="eliteCount">0</div>
+                        <div class="stat-label">Elite Plans</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="usersSection" style="display: none;">
+                <h2 class="section-title">👥 User Management</h2>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="filter-btns">
+                            <button class="filter-btn active" onclick="filterUsers('')">All</button>
+                            <button class="filter-btn" onclick="filterUsers('active')">Active</button>
+                            <button class="filter-btn" onclick="filterUsers('expired')">Expired</button>
+                            <button class="filter-btn" onclick="filterUsers('suspicious')">Suspicious</button>
+                        </div>
+                        <button
+                            style="background: #ef4444; border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer;"
+                            onclick="openAddModal()">+ Add User</button>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Token</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Expires</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Filled by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Monitoring Section -->
+            <section id="monitoringSection" style="display: none;">
+                <h2 class="section-title">🔍 Live Monitoring</h2>
+
+                <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <div class="stat-card">
+                        <div class="stat-value" id="liveHeartbeats">0</div>
+                        <div class="stat-label">Heartbeats (Last Hour)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="recentLogins">0</div>
+                        <div class="stat-label">Logins (24h)</div>
+                    </div>
+                </div>
+
+                <h3 style="margin: 25px 0 15px;">⚠️ Flagged Users</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Reason</th>
+                                <th>IP Changes</th>
+                                <th>Last IP</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="flaggedTable">
+                            <!-- Filled by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Logs Section -->
+            <section id="logsSection" style="display: none;">
+                <h2 class="section-title">📋 Activity Logs</h2>
+
+                <div class="table-container">
+                    <div class="logs-list" id="logsList">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>➕ Add New User</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="newEmail" placeholder="user@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Plan</label>
+                <select id="newPlan">
+                    <option value="STANDARD">Standard - $49/mo</option>
+                    <option value="PRO">Pro - $99/mo</option>
+                    <option value="ELITE">Elite - $199/mo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Telegram (optional)</label>
+                <input type="text" id="newTelegram" placeholder="@username">
+            </div>
+
+            <button class="btn-primary" onclick="createUser()">Create User & Generate Token</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/cloud-admin';
+        let adminToken = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            adminToken = localStorage.getItem('admin_token');
+            if (!adminToken) {
+                adminToken = prompt('Enter Admin Master Token:');
+                if (adminToken) {
+                    localStorage.setItem('admin_token', adminToken);
+                }
+            }
+            loadStats();
+            loadUsers();
+        });
+
+        async function apiCall(endpoint, options = {}) {
+            options.headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${adminToken}`,
+                'Content-Type': 'application/json'
+            };
+            const res = await fetch(`${API_BASE}${endpoint}`, options);
+            if (!res.ok && res.status === 401) {
+                localStorage.removeItem('admin_token');
+                location.reload();
+            }
+            return res.json();
+        }
+
+        async function loadStats() {
+            const stats = await apiCall('/stats');
+            document.getElementById('totalUsers').textContent = stats.total_users;
+            document.getElementById('activeUsers').textContent = stats.active_users;
+            document.getElementById('expiredUsers').textContent = stats.expired_users;
+            document.getElementById('suspiciousUsers').textContent = stats.suspicious_users;
+            document.getElementById('standardCount').textContent = stats.plan_distribution.STANDARD || 0;
+            document.getElementById('proCount').textContent = stats.plan_distribution.PRO || 0;
+            document.getElementById('eliteCount').textContent = stats.plan_distribution.ELITE || 0;
+            document.getElementById('liveHeartbeats').textContent = stats.heartbeats_last_hour;
+            document.getElementById('recentLogins').textContent = stats.recent_logins;
+        }
+
+        async function loadUsers(status = '') {
+            const users = await apiCall(`/users?status=${status}&limit=50`);
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td class="user-email">${u.email}</td>
+                    <td><span class="user-token">${u.token}</span></td>
+                    <td><span class="badge badge-${u.plan.toLowerCase()}">${u.plan}</span></td>
+                    <td>
+                        <span class="badge ${u.is_active ? 'badge-active' : 'badge-expired'}">
+                            ${u.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                        ${u.is_suspicious ? '<span class="badge badge-suspicious">⚠️</span>' : ''}
+                    </td>
+                    <td>${u.days_remaining} days</td>
+                    <td>${u.last_login_at ? new Date(u.last_login_at).toLocaleDateString() : 'Never'}</td>
+                    <td class="action-btns">
+                        <button class="action-btn btn-renew" onclick="renewUser('${u.id}')" title="Renew +30 days">🔄</button>
+                        <button class="action-btn btn-reset" onclick="resetBinding('${u.id}')" title="Reset Binding">🔓</button>
+                        <button class="action-btn btn-view" onclick="forceReverify('${u.id}')" title="Force Re-verify">📧</button>
+                        <button class="action-btn btn-view" onclick="sendActivationEmail('${u.id}')" title="Send Token Email">📨</button>
+                        <button class="action-btn btn-reset" onclick="unlockUser('${u.id}')" title="Unlock">🔑</button>
+                        <button class="action-btn btn-suspend" onclick="suspendUser('${u.id}')" title="Suspend">⛔</button>
+                        <button class="action-btn btn-suspend" onclick="deleteUser('${u.id}')" title="Delete">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadLogs() {
+            const logs = await apiCall('/logs?limit=50');
+            const container = document.getElementById('logsList');
+            container.innerHTML = logs.map(l => `
+                <div class="log-item">
+                    <div>
+                        <span class="log-action">${l.action}</span>
+                        <span style="color: #666; margin-left: 10px;">${l.ip_address || ''}</span>
+                    </div>
+                    <span class="log-time">${new Date(l.timestamp).toLocaleString()}</span>
+                </div>
+            `).join('');
+        }
+
+        function showSection(name) {
+            document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+            document.getElementById(`${name}Section`).style.display = 'block';
+
+            document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (name === 'logs') loadLogs();
+            if (name === 'monitoring') loadStats();
+        }
+
+        function filterUsers(status) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            loadUsers(status);
+        }
+
+        function openAddModal() {
+            document.getElementById('addUserModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('addUserModal').classList.remove('show');
+        }
+
+        async function createUser() {
+            const email = document.getElementById('newEmail').value;
+            const plan = document.getElementById('newPlan').value;
+            const telegram = document.getElementById('newTelegram').value;
+
+            const result = await apiCall('/users', {
+                method: 'POST',
+                body: JSON.stringify({ email, plan, telegram })
+            });
+
+            alert(`User created!\nToken: ${result.token}`);
+            closeModal();
+            loadUsers();
+            loadStats();
+        }
+
+        async function renewUser(id) {
+            await apiCall(`/users/${id}/renew`, { method: 'POST' });
+            loadUsers();
+        }
+
+        async function resetBinding(id) {
+            if (!confirm('Reset device/IP binding for this user?')) return;
+            await apiCall(`/users/${id}/reset-binding`, { method: 'POST' });
+            loadUsers();
+        }
+
+        async function suspendUser(id) {
+            const reason = prompt('Suspension reason:');
+            if (!reason) return;
+            await apiCall(`/users/${id}/suspend?reason=${encodeURIComponent(reason)}`, { method: 'POST' });
+            loadUsers();
+        }
+
+        async function unlockUser(id) {
+            if (!confirm('Unlock this user account?')) return;
+            await apiCall(`/users/${id}/unlock`, { method: 'POST' });
+            loadUsers();
+            alert('User account unlocked');
+        }
+
+        async function forceReverify(id) {
+            if (!confirm('Force this user to re-verify email on next login?')) return;
+            await apiCall(`/users/${id}/force-reverify`, { method: 'POST' });
+            loadUsers();
+            alert('User must re-verify email');
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('⚠️ PERMANENTLY DELETE this user?')) return;
+            if (!confirm('This cannot be undone. Are you SURE?')) return;
+            await apiCall(`/users/${id}`, { method: 'DELETE' });
+            loadUsers();
+            loadStats();
+            alert('User deleted');
+        }
+
+        async function sendActivationEmail(id) {
+            await apiCall(`/users/${id}/send-activation-email`, { method: 'POST' });
+            alert('Activation email sent');
+        }
+
+        async function killSwitch() {
+            if (!confirm('⚠️ KILL SWITCH: This will disable ALL cloud users. Continue?')) return;
+            if (!confirm('Are you ABSOLUTELY sure?')) return;
+
+            await apiCall('/kill-switch', { method: 'POST' });
+            alert('All users have been disabled.');
+            loadStats();
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

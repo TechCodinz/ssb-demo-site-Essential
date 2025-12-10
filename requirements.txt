@@ -1,0 +1,6 @@
+solana==0.32.0
+solders==0.20.0
+base58
+requests
+websockets==11.0.3
+python-dotenv

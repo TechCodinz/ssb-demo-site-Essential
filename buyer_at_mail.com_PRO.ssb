@@ -1,0 +1,8 @@
+{
+  "email": "buyer@mail.com",
+  "plan": "PRO",
+  "exp": 1767559213,
+  "hwid": "*",
+  "main_hash": "36dbcbf47449bfa7db762c9bd5e88064d45b8fe1941911d17df6a9fa65da5639",
+  "sig": "38e812bf98ab2220b86ff3f0170ca048638ebace78ab92dbe28bca9f2b64c086"
+}

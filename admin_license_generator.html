@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>SSB License Generator</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      margin-top: 4px;
+      border-radius: 6px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    button {
+      margin-top: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: #22c55e;
+      color: #020617;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .box {
+      margin-top: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #020617;
+      border: 1px solid #374151;
+    }
+
+    .box h2 {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    small {
+      color: #9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Sol Sniper Bot – License Generator</h1>
+  <small>Use this offline. Send <b>license.ssb</b> file to buyer + add JSON entry to your GitHub licenses DB.</small>
+
+  <div class="row">
+    <div>
+      <label>Plan</label>
+      <select id="plan">
+        <option value="STANDARD">STANDARD (Dry + Limited Live)</option>
+        <option value="PRO" selected>PRO</option>
+        <option value="ELITE">ELITE</option>
+      </select>
+    </div>
+    <div>
+      <label>Expiry (YYYY-MM-DD)</label>
+      <input id="expires" type="text" value="2099-12-31" />
+    </div>
+  </div>
+
+  <label>Buyer Email</label>
+  <input id="email" type="email" placeholder="buyer@email.com" />
+
+  <div class="row">
+    <div>
+      <label>HWID (optional, * = any PC)</label>
+      <input id="hwid" type="text" value="*" />
+    </div>
+    <div>
+      <label>Custom License Key (optional)</label>
+      <input id="manualKey" type="text" placeholder="leave empty to auto-generate" />
+    </div>
+  </div>
+
+  <button onclick="generate()">Generate License</button>
+
+  <div class="box">
+    <h2>1. license.ssb (send to buyer)</h2>
+    <textarea id="localJson" rows="8" readonly></textarea>
+    <button onclick="downloadLocal()">Download license.ssb</button>
+  </div>
+
+  <div class="box">
+    <h2>2. GitHub licenses.json entry (append to your DB)</h2>
+    <textarea id="remoteJson" rows="6" readonly></textarea>
+  </div>
+
+  <script>
+    function randDigits(n) {
+      let s = "";
+      for (let i = 0; i < n; i++) s += Math.floor(Math.random() * 10);
+      return s;
+    }
+
+    function buildKey(plan) {
+      const prefix =
+        plan === "STANDARD" ? "SSB-STD-" :
+          plan === "PRO" ? "SSB-PRO-" : "SSB-ELITE-";
+      return prefix + randDigits(4);
+    }
+
+    async function generate() {
+      const plan = document.getElementById("plan").value;
+      const email = document.getElementById("email").value.trim();
+      const hwid = document.getElementById("hwid").value.trim() || "*";
+      const custom_key = document.getElementById("manualKey").value.trim() || undefined;
+
+      if (!email) {
+        alert("Please enter a buyer email.");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan, email, hwid, custom_key })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || "Generation failed");
+        }
+
+        const json = await res.json();
+        const data = json.data;
+        const filepath = json.filepath;
+
+        document.getElementById("localJson").value = JSON.stringify(data, null, 2);
+
+        // Prepare remote DB entry
+        const remote = { ...data, order_id: "MANUAL-" + Date.now() };
+        document.getElementById("remoteJson").value = JSON.stringify(remote, null, 2);
+
+        alert(`✅ License Generated!\nSaved to: ${filepath}`);
+
+      } catch (e) {
+        alert("Error: " + e.message);
+      }
+    }
+
+    function downloadLocal() {
+      const txt = document.getElementById("localJson").value.trim();
+      if (!txt) { alert("Generate first."); return; }
+      const blob = new Blob([txt], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "license.ssb";
+      a.click();
+    }
+  </script>
+</body>
+
+</html>

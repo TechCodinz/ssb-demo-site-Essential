@@ -1,0 +1,20 @@
+23:57:04 | INFO | 🟡 Running in DRY RUN without valid license: No license file – DRY RUN only
+23:57:04 | INFO | [ENGINE] PRO MAX mode – DRY RUN using ELITE engine profile (aggressive, early entries, more action).
+23:57:04 | INFO | [ENGINE] Tuned parameters: MIN_CONF=67.0 | MAX_TRADES/h=18 | MAX_POS=10
+23:57:04 | INFO | Sol Sniper Bot PRO – Mode: DRY RUN | RPC: https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY | Buy: 0.25 SOL | TP: 250.0% | SL: 60.0% | Filters: Min Liq $8,000, Vol 5m $15,000 | Limits: Max 18 trades / hour | Min Conf: 67.0 | MaxOpenPos=10 | SessionUTC=00-23
+23:57:04 | INFO | License: tier=DEMO | email= | days_left=None | reason=No license file – DRY RUN only
+23:57:04 | INFO | Engine: ELITE – Aggressive Momentum Engine: Fastest entries, early pump detection, maximum profit potential. (risk_mult=1.05, dex_initial=1.0s, dex_max_wait=20.0s)
+23:57:04 | INFO | Ultra Features: TrailingStop=✅ | EarlyEntry=0.5s | PriorityFee=2.0x | FullAlerts=✅
+23:57:04 | INFO | [TG-OFF] Sol Sniper Bot PRO
+Mode: DRY RUN
+RPC: https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY
+Buy: 0.25 SOL | TP: 250.0% | SL: 60.0%
+Filters: Min Liq $8,000, Vol 5m $15,000
+Limits: Max 18 trades/hour | Min Conf: 67.0
+Max Open Positions: 10
+Session (UTC): 00-23
+License: DEMO |  | Days left: None
+Engine: ELITE: Aggressive Momentum Engine: Fastest entries, early pump detection, maximum profit potential.
+23:57:04 | INFO | [WS] Connecting to wss://pumpportal.fun/api/data ...
+23:57:07 | INFO | [WS] Subscribed to Pump.fun new tokens.
+23:57:07 | INFO | [TG-OFF] ⚡ Connected to Pump.fun stream (Sol Sniper Bot PRO).

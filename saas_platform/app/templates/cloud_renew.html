@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renew Subscription - SSB Cloud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .pricing-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .price-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .price-card:hover,
+        .price-card.selected {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .price-card .plan-name {
+            font-weight: 600;
+        }
+
+        .price-card .price {
+            font-size: 20px;
+            color: #00d4ff;
+        }
+
+        .wallet-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .wallet-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .wallet-address {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(90deg, #7c3aed, #00d4ff);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .instructions {
+            text-align: left;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #f87171;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #7c3aed;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔄 Renew Subscription</h1>
+        <p class="subtitle">Continue your cloud trading access</p>
+
+        <div class="pricing-cards">
+            <div class="price-card selected" onclick="selectPlan('STANDARD', 49)">
+                <span class="plan-name">☁️ Cloud Standard</span>
+                <span class="price">$49/mo</span>
+            </div>
+            <div class="price-card" onclick="selectPlan('PRO', 99)">
+                <span class="plan-name">⚡ Cloud Pro</span>
+                <span class="price">$99/mo</span>
+            </div>
+            <div class="price-card" onclick="selectPlan('ELITE', 199)">
+                <span class="plan-name">🚀 Cloud Elite</span>
+                <span class="price">$199/mo</span>
+            </div>
+        </div>
+
+        <div class="wallet-section">
+            <div class="wallet-label">Send USDT (TRC20) to:</div>
+            <div class="wallet-address" id="walletAddress">TBxck6t1a3pZE2YLho4Su1PcGKd2yK2zD4</div>
+            <button class="copy-btn" onclick="copyAddress()">📋 Copy Address</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Payment Instructions</h3>
+            <ol>
+                <li>Select your plan above</li>
+                <li>Send the exact USDT amount to the wallet address</li>
+                <li>Use <strong>TRC20 network only</strong></li>
+                <li>After payment, admin will activate your renewal within minutes</li>
+                <li>You'll receive confirmation via Telegram</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            ⚠️ Only send USDT on TRC20 network. Other tokens or networks will be lost!
+        </div>
+
+        <a href="/cloud-dashboard" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <script>
+        let selectedPlan = 'STANDARD';
+        let selectedPrice = 49;
+
+        function selectPlan(plan, price) {
+            selectedPlan = plan;
+            selectedPrice = price;
+
+            document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+            event.target.closest('.price-card').classList.add('selected');
+        }
+
+        function copyAddress() {
+            const address = document.getElementById('walletAddress').textContent;
+            navigator.clipboard.writeText(address);
+            event.target.textContent = '✅ Copied!';
+            setTimeout(() => {
+                event.target.textContent = '📋 Copy Address';
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>

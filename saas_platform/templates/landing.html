@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol Sniper Bot PRO - #1 Pump.fun Solana Trading Bot</title>
+    <meta name="description"
+        content="The fastest Pump.fun sniper bot for Solana. Automated trading, anti-rug protection, 24/7 cloud operation. Start making profits today.">
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --bg-card: #0f172a;
+            --accent-cyan: #22d3ee;
+            --accent-purple: #a855f7;
+            --text-primary: #f9fafb;
+            --text-muted: #9ca3af;
+            --success: #4ade80;
+            --warning: #facc15;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(ellipse at top, #111827 0%, #020617 50%, #000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%2322d3ee" stroke-width="0.5" opacity="0.1"/></svg>');
+            background-size: 300px;
+            opacity: 0.3;
+        }
+
+        .logo-big {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 36px;
+            color: var(--bg-dark);
+            margin-bottom: 30px;
+            box-shadow: 0 0 100px rgba(34, 211, 238, 0.5);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 60px rgba(34, 211, 238, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 100px rgba(168, 85, 247, 0.6);
+            }
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+        }
+
+        .tagline {
+            font-size: 22px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 999px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(34, 211, 238, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(34, 211, 238, 0.1);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Features */
+        .features {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Live Demo */
+        .demo-section {
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .demo-terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #0a0a0a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 12px 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-content {
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            text-align: left;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .log-line {
+            padding: 4px 0;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .log-success {
+            color: var(--success);
+        }
+
+        .log-info {
+            color: var(--accent-cyan);
+        }
+
+        .log-warning {
+            color: var(--warning);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .plans {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .plan {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .plan.featured {
+            border: 2px solid var(--accent-purple);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-purple);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Instructions Section */
+        .instructions {
+            padding: 80px 20px;
+            background: #0b101b;
+            /* slightly lighter than dark bg */
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .step-card h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .step-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .step-card code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--text-primary);
+        }
+
+        .alert-box {
+            max-width: 800px;
+            margin: 40px auto 0;
+            background: rgba(250, 204, 21, 0.1);
+            /* warning color alpha */
+            border: 1px solid var(--warning);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: var(--warning);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="logo-big">SSB</div>
+        <h1>Sol Sniper Bot PRO</h1>
+        <p class="tagline">The #1 Pump.fun Solana Trading Bot. Automated sniping, anti-rug protection, and 24/7 cloud
+            operation. Make profits while you sleep.</p>
+
+        <div class="cta-buttons">
+            <a href="/register" class="btn btn-primary">🚀 Start Trading Now</a>
+            <a href="/static/SolSniperBotPRO.zip" class="btn btn-secondary" download>🎮 Download Free Demo</a>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">50K+</div>
+                <div class="stat-label">Tokens Sniped</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">2.3M+</div>
+                <div class="stat-label">SOL Volume</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">99.9%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions / Quick Start -->
+    <section class="instructions" id="setup">
+        <h2 class="section-title">Quick Start Guide</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <h3>1. Download & Unzip</h3>
+                <p>Click "Download Free Demo" above. Extract the ZIP file to a folder on your computer (Windows 10/11).
+                </p>
+            </div>
+            <div class="step-card">
+                <h3>2. Configure</h3>
+                <p>Rename <code>config.sample.json</code> to <code>config.json</code>.
+                    Open it and set your <b>private_key</b> (for trading) and <b>rpc</b> (use Helius or QuickNode for
+                    best speed).</p>
+            </div>
+            <div class="step-card">
+                <h3>3. Run & Trade</h3>
+                <p>Double-click <code>gui_main.exe</code>. Select "Try Free Demo" or enter your license key to go LIVE!
+                </p>
+            </div>
+        </div>
+        <div class="alert-box">
+            <p><strong>💡 Pro Tip:</strong> Use a dedicated wallet with small funds for testing. Get a free fast RPC
+                from <a href="https://helius.dev" target="_blank" style="color:var(--text-primary);">Helius.dev</a>.</p>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2 class="section-title">Why Traders Choose Us</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Lightning Fast Entries</h3>
+                <p class="feature-desc">Snipe new tokens within seconds of launch. Our engine connects directly to
+                    Pump.fun for instant detection.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">Anti-Rug Protection</h3>
+                <p class="feature-desc">Advanced honeypot detection, freeze authority checks, and liquidity analysis
+                    protect you from scams.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3 class="feature-title">24/7 Cloud Bot</h3>
+                <p class="feature-desc">Your bot runs in the cloud forever. No downloads, no setup. Trade from any
+                    device, anywhere.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Smart Risk Engine</h3>
+                <p class="feature-desc">AI-powered confidence scoring analyzes liquidity, volume, holder distribution,
+                    and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3 class="feature-title">Auto TP/SL</h3>
+                <p class="feature-desc">Set your take-profit and stop-loss levels. The bot executes exits automatically.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3 class="feature-title">Telegram Alerts</h3>
+                <p class="feature-desc">Get instant notifications for every trade. Stay informed without watching
+                    charts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo -->
+    <section class="demo-section" id="demo">
+        <h2 class="section-title">See It In Action</h2>
+        <div class="demo-terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot" style="background: #ff5f56;"></div>
+                <div class="terminal-dot" style="background: #ffbd2e;"></div>
+                <div class="terminal-dot" style="background: #27c93f;"></div>
+            </div>
+            <div class="terminal-content" id="terminal"></div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <div class="plans">
+            <div class="plan">
+                <h3 class="plan-name">STANDARD</h3>
+                <div class="plan-price">$199<span> USDT</span></div>
+                <p style="color: var(--text-muted);">Lifetime Access</p>
+                <ul class="plan-features">
+                    <li>✓ LIVE Trading Mode</li>
+                    <li>✓ 7 trades/hour</li>
+                    <li>✓ 5 open positions</li>
+                    <li>✓ Basic risk engine</li>
+                    <li>✗ Trailing stop-loss</li>
+                </ul>
+                <a href="/pricing" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+            </div>
+            <div class="plan featured">
+                <span class="plan-badge">MOST POPULAR</span>
+                <h3 class="plan-name" style="color: var(--accent-purple);">PRO</h3>
+                <div class="plan-price">$499<span> USDT</span></div>
+                <p style="color: var(--text-muted);">Lifetime Access</p>
+                <ul class="plan-features">
+                    <li>✓ LIVE Trading Mode</li>
+                    <li>✓ 12 trades/hour</li>
+                    <li>✓ 8 open positions</li>
+                    <li>✓ Pro risk engine</li>
+                    <li>✓ Trailing stop-loss</li>
+                </ul>
+                <a href="/pricing" class="btn btn-primary" style="width: 100%;">Get Pro</a>
+            </div>
+            <div class="plan">
+                <h3 class="plan-name" style="color: var(--warning);">ELITE</h3>
+                <div class="plan-price">$899<span> USDT</span></div>
+                <p style="color: var(--text-muted);">Lifetime Access</p>
+                <ul class="plan-features">
+                    <li>✓ LIVE Trading Mode</li>
+                    <li>✓ 18 trades/hour</li>
+                    <li>✓ 10 open positions</li>
+                    <li>✓ Elite risk engine</li>
+                    <li>✓ Early entry boost</li>
+                </ul>
+                <a href="/pricing" class="btn btn-secondary" style="width: 100%;">Get Elite</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Sol Sniper Bot PRO. Trade responsibly. Not financial advice.</p>
+    </footer>
+
+    <script>
+        // Simulated live trading demo
+        const logs = [
+            { text: '⚡ Engine started - ELITE mode', class: 'log-info' },
+            { text: '🔌 Connected to Pump.fun stream', class: 'log-success' },
+            { text: '🚀 NEW TOKEN: 5xK8...2Fm9', class: 'log-success' },
+            { text: '📊 Analyzing risk... Confidence: 82.4%', class: 'log-info' },
+            { text: '🟢 BUY EXECUTED: 0.25 SOL → 5xK8...', class: 'log-success' },
+            { text: '🚀 NEW TOKEN: 9aB2...7Xm1', class: 'log-success' },
+            { text: '📊 Analyzing risk... Confidence: 45.2%', class: 'log-info' },
+            { text: '❌ REJECTED: Low confidence', class: 'log-warning' },
+            { text: '💰 SELL (TP): 5xK8... +287%', class: 'log-success' },
+            { text: '🚀 NEW TOKEN: 3mN7...4Ks8', class: 'log-success' },
+        ];
+
+        const terminal = document.getElementById('terminal');
+        let i = 0;
+
+        function addLog() {
+            if (i >= logs.length) {
+                terminal.innerHTML = '';
+                i = 0;
+            }
+            const log = logs[i];
+            const line = document.createElement('div');
+            line.className = `log-line ${log.class}`;
+            line.style.animationDelay = '0s';
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${log.text}`;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+            i++;
+        }
+
+        // Start demo
+        setInterval(addLog, 2000);
+        addLog();
+    </script>
+</body>
+
+</html>

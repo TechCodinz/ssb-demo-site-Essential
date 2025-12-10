@@ -1,0 +1,57 @@
+# SSB PRO - Consolidated Nginx Config
+server {
+    listen 80;
+    server_name ssbpro.dev www.ssbpro.dev api.ssbpro.dev download.ssbpro.dev license.ssbpro.dev;
+    return 301 https://$host$request_uri;
+}
+
+# 1. Landing Page (ssbpro.dev)
+server {
+    listen 443 ssl;
+    server_name ssbpro.dev www.ssbpro.dev;
+
+    ssl_certificate /etc/letsencrypt/live/ssbpro.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ssbpro.dev/privkey.pem;
+
+    root /var/www/ssb-cloud-api/landing;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+# 2. API & License & Orders (api.ssbpro.dev, license., orders.)
+server {
+    listen 443 ssl;
+    server_name api.ssbpro.dev license.ssbpro.dev orders.ssbpro.dev;
+
+    ssl_certificate /etc/letsencrypt/live/ssbpro.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ssbpro.dev/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+# 3. Download Server (download.ssbpro.dev)
+server {
+    listen 443 ssl;
+    server_name download.ssbpro.dev;
+
+    ssl_certificate /etc/letsencrypt/live/ssbpro.dev/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ssbpro.dev/privkey.pem;
+
+    root /var/www/ssb-cloud-api/download_server;
+    index index.html;
+
+    # Allow autoindexing for easy file browsing if index.html is missing
+    location / {
+        autoindex on;
+        try_files $uri $uri/ =404;
+    }
+}
