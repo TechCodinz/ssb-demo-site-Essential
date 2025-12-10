@@ -1701,6 +1701,152 @@
                 font-size: 20px;
             }
         }
+
+        /* MOBILE POLISH & TUNING */
+        @media (max-width: 768px) {
+            .wrapper {
+                padding: 16px 16px 60px;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            /* Better Header Layout */
+            header {
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .brand-text-title {
+                font-size: 18px;
+            }
+
+            /* Hero Adjustments */
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+                /* Reduced from 38 */
+                line-height: 1.25;
+            }
+
+            .hero-sub {
+                font-size: 14px;
+                margin: 0 auto 20px;
+            }
+
+            .hero-points {
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .hero-ctas button {
+                width: 100%;
+                justify-content: center;
+                padding: 16px;
+            }
+
+            .trust-row {
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-top: 24px;
+                gap: 8px;
+            }
+
+            /* Simulator Card Optimization */
+            .simulator-showcase {
+                padding: 24px 16px;
+                margin: 40px 0;
+                border-radius: 16px;
+            }
+
+            .simulator-showcase h2 {
+                font-size: 28px !important;
+                /* Force override inline styles */
+            }
+
+            .simulator-showcase p {
+                font-size: 14px !important;
+            }
+
+            /* Fix simulator grid to single column */
+            .simulator-showcase>div>div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            /* Hide heavy background blobs on mobile */
+            .simulator-showcase::before {
+                opacity: 0.2;
+            }
+
+            /* Pricing Grid - Single Column */
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .price-card {
+                margin: 0 4px;
+                /* Slight inset */
+            }
+
+            /* Feature Tabs Stacked */
+            .features-tabs {
+                flex-direction: column;
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+            }
+
+            /* Tab Content Grid */
+            .tab-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Floating Action Button Position */
+            .fab {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            /* Downloads Section */
+            .download-box>div {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 
