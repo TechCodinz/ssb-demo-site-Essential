@@ -1,0 +1,17 @@
+# Vercel Configuration Check
+# Ignore Python backend to prevent Serverless Function build (Size Limit Error)
+requirements.txt
+*.py
+__pycache__/
+*.pyc
+
+# Heavy Backend Folders
+saas_platform/app/worker/
+saas_platform/app/core/
+saas_platform/app/api/
+saas_platform/scripts/
+tests/
+venv/
+.env
+
+# Keep saas_platform/app/static/ and root HTML files
