@@ -1,0 +1,28 @@
+{
+    "rewrites": [
+        {
+            "source": "/",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "app.ssbpro.dev"
+                }
+            ],
+            "destination": "/saas_platform/app/static/dashboard.html"
+        },
+        {
+            "source": "/auth",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "app.ssbpro.dev"
+                }
+            ],
+            "destination": "/saas_platform/app/static/auth.html"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/saas_platform/app/static/$1"
+        }
+    ]
+}
